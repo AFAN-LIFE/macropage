@@ -1,7 +1,7 @@
 # 中国宏观经济看板
- 
-**作者：AFAN（微信：afan-life）**
-**地址：https://macropage.streamlit.app/**
+
+**作者：AFAN（微信：afan-life）**   
+**在线地址：https://macropage.streamlit.app/**
 
 ## 项目说明
 
@@ -62,7 +62,6 @@ openpyxl                     3.1.2
 pip install pandas==2.1.1 openpyxl==3.1.2 matplotlib==3.8.0 streamlit==1.29.0 streamlit-authenticator==0.2.3 cryptography==41.0.4
 ```
 
-
 ## 项目启动
 
 在macropage的conda环境下执行：
@@ -73,17 +72,15 @@ streamlit run main.py
 
 默认在`http://localhost:8501/`启动
 
-
 ## 深入学习项目
 
-- 加入知识星球：AFAN的金融科技，收看专栏中的宏观经济数据往期分析，以及直播回放中的streamlit教学：
+- 扫码加入知识星球：AFAN的金融科技，收看专栏中的宏观经济数据往期分析，以及直播回放中的streamlit教学：
 
-![知识星球：AFAN的金融科技](asset/planet.jpg)
+<img src="asset/planet.jpg" title="" alt="知识星球：AFAN的金融科技" width="199">
 
-- 联系AFAN，加入金融科技学习社群（微信：afan-life）：  
+- 微信联系AFAN，加入金融科技学习社群（微信：afan-life）：  
 
-![微信：afan-life](asset/weixin.png)
-
+<img src="asset/weixin.png" title="" alt="微信：afan-life" width="199">
 
 ## 开发参考文档
 

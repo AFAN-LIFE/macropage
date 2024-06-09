@@ -296,7 +296,7 @@ class ExportBasic:
 
 class ExportCountry:
     def __init__(self):
-        path = 'data/进出口国家.xlsx'
+        path = 'data/进出口区域.xlsx'
         df = preprocess_choice_data(path)
         df = df[(df['指标名称'] >= '2000-01') & (df['指标名称'] <= '2099-01')]
         df = df.replace('--', np.nan)
@@ -361,7 +361,7 @@ class ExportCountry:
         plot_df = plot_df.groupby(['年份']).sum()
         plot_df = plot_df.div(plot_df.sum(axis=1), axis=0)
         plot_df = plot_df.loc[start_date:, plot_df.iloc[0].sort_values().tail(5).index]
-        st.line_chart(plot_df.dropna().astype(float))
+        st.line_chart(plot_df.dropna().astype(float) * 100)
 
     def input_trend(self):
         start_date = '2000-01'
@@ -370,7 +370,7 @@ class ExportCountry:
         plot_df = plot_df.groupby(['年份']).sum()
         plot_df = plot_df.div(plot_df.sum(axis=1), axis=0)
         plot_df = plot_df.loc[start_date:, plot_df.iloc[0].sort_values().tail(5).index]
-        st.line_chart(plot_df.dropna().astype(float))
+        st.line_chart(plot_df.dropna().astype(float) * 100)
 
 
 class FixedAssetInvest:
@@ -1077,27 +1077,27 @@ def Export_analysis():
     st.write('单位：百分比@月，包含人民币和美元计价两类增速')
     export_basic.total_plot()
     st.title('进出口绝对金额变化')
-    st.write('单位：亿美元@月')
+    st.write('单位：千美元@月')
     export_basic.amount_plot()
-    st.title('出口总额分年份月度变化')
-    st.write('单位：亿美元@月')
+    st.title('出口总额增速分年份月度变化')
+    st.write('单位：百分比@月')
     export_basic.output_season_plot()
-    st.title('进口总额分年份月度变化')
-    st.write('单位：亿美元@月')
+    st.title('进口总额增速分年份月度变化')
+    st.write('单位：百分比@月')
     export_basic.input_season_plot()
 
     export_country = ExportCountry()
-    st.title('出口国家金额占比')
+    st.title('出口区域金额占比')
     st.write('单位：千美元，支持用户选择指定的月份')
     export_country.output_portion()
-    st.title('进口国家金额占比')
+    st.title('进口区域金额占比')
     st.write('单位：千美元，支持用户选择指定的月份')
     export_country.input_portion()
-    st.title('出口国家金额占比变化')
-    st.write('单位：百分比@年，当前仅展示当前年份最大的5个国家/区域的自2000年开始的历史占比变化')
+    st.title('出口区域金额占比变化')
+    st.write('单位：百分比@年，当前仅展示当前年份最大的5个区域的自2000年开始的历史占比变化')
     export_country.output_trend()
-    st.title('进口国家金额占比变化')
-    st.write('单位：百分比@年，当前仅展示当前年份最大的5个国家/区域的自2000年开始的历史占比变化')
+    st.title('进口区域金额占比变化')
+    st.write('单位：百分比@年，当前仅展示当前年份最大的5个区域的自2000年开始的历史占比变化')
     export_country.input_trend()
 
 

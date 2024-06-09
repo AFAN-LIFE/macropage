@@ -89,3 +89,9 @@ streamlit run main.py
 - [Streamlit-Authenticator加密登录](https://github.com/mkhorasani/Streamlit-Authenticator)
 
 - [altair图表](https://altair.streamlit.app/)
+
+## 更新记录
+
+- 2024/06/09：
+  - 数据更新：更新进出口基本.xlsx和进出口国家.xlsx
+  - 功能更新：在进出口分析增加了播放饼图动画的按钮

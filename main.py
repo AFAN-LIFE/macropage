@@ -1,4 +1,5 @@
 import re
+import time
 import datetime
 import numpy as np
 import pandas as pd
@@ -311,23 +312,47 @@ class ExportCountry:
         options = self.output_df.index.tolist()
         date = st.select_slider("请选择想要查询的日期", options=options, key='output_portion')
         st.write("当前选择的日期是：", date)
-        selected_df = self.output_df.loc[date].reset_index()
-        chart1 = alt.Chart(selected_df).mark_arc().encode(
-            theta=alt.Theta(field=selected_df.columns[1], type="quantitative"),
-            color=alt.Color(field=selected_df.columns[0], type="nominal"),
-        )
-        st.altair_chart(chart1, theme="streamlit", use_container_width=True)
+        # 创建2个空的容器
+        slider_container = st.empty()
+        chart_container = st.empty()
+        run = st.button("播放动画", key='output_run', type='primary')
+        def run_plot(date, object):
+            selected_df = self.output_df.loc[date].reset_index()
+            chart1 = alt.Chart(selected_df).mark_arc().encode(
+                theta=alt.Theta(field=selected_df.columns[1], type="quantitative"),
+                color=alt.Color(field=selected_df.columns[0], type="nominal"),
+            )
+            object.altair_chart(chart1, theme="streamlit", use_container_width=True)
+        if run:
+            for i in options:
+                time.sleep(0.1)
+                slider_container.select_slider("Select Date", options=options, value=i, key=i)
+                run_plot(i, chart_container)
+        else:
+            run_plot(date, st)
 
     def input_portion(self):
         options = self.input_df.index.tolist()
         date = st.select_slider("请选择想要查询的日期", options=options, key='input_portion')
         st.write("当前选择的日期是：", date)
-        selected_df = self.input_df.loc[date].reset_index()
-        chart2 = alt.Chart(selected_df).mark_arc().encode(
-            theta=alt.Theta(field=selected_df.columns[1], type="quantitative"),
-            color=alt.Color(field=selected_df.columns[0], type="nominal"),
-        )
-        st.altair_chart(chart2, theme="streamlit", use_container_width=True)
+        # 创建2个空的容器
+        slider_container = st.empty()
+        chart_container = st.empty()
+        run = st.button("播放动画", key='input_run', type='primary')
+        def run_plot(date, object):
+            selected_df = self.input_df.loc[date].reset_index()
+            chart2 = alt.Chart(selected_df).mark_arc().encode(
+                theta=alt.Theta(field=selected_df.columns[1], type="quantitative"),
+                color=alt.Color(field=selected_df.columns[0], type="nominal"),
+            )
+            object.altair_chart(chart2, theme="streamlit", use_container_width=True)
+        if run:
+            for i in options:
+                time.sleep(0.1)
+                slider_container.select_slider("Select Date", options=options, value=i, key=i)
+                run_plot(i, chart_container)
+        else:
+            run_plot(date, st)
 
     def output_trend(self):
         start_date = '2000-01'
@@ -1234,10 +1259,9 @@ if __name__ == "__main__":
     st.sidebar.markdown("作者：AFAN（微信：afan-life）")
     st.sidebar.markdown("项目介绍：[macropage](https://github.com/AFAN-LIFE/macropage)")
     selection = st.sidebar.radio("当前支持的分析图表：",
-                                 # "联系作者：微信:afan-life B站:AFAN的金融科技",
                                  ["GDP分析", "社会消费品零售总额分析", "进出口分析", "固定资产投资分析", "CPI和PPI分析",
                                   "PMI分析", "社融和货币供应分析", "财政数据分析", "人口就业分析", "外汇分析",
-                                  "房地产投资分析"])
+                                  "房地产投资分析", "开发测试"])
     if selection == "GDP分析":
         GDP_analysis()
     elif selection == "社会消费品零售总额分析":
@@ -1260,3 +1284,6 @@ if __name__ == "__main__":
         Forex_analysis()
     elif selection == "房地产投资分析":
         RealEstateInvest_analysis()
+    elif selection == "开发测试":
+        from test import test_func
+        test_func()

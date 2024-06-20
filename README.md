@@ -36,6 +36,7 @@
 - 9 人口就业数据
 - 10 外汇数据
 - 11 房地产投资数据
+- 12 股票基本数据、股票指数数据
 
 ## 环境管理
 
@@ -54,12 +55,13 @@ matplotlib                   3.8.0
 pandas                       2.1.1
 cryptography                 41.0.4
 openpyxl                     3.1.2
+tushare
 ```
 
 一步安装：
 
 ```
-pip install pandas==2.1.1 openpyxl==3.1.2 matplotlib==3.8.0 streamlit==1.29.0 streamlit-authenticator==0.2.3 cryptography==41.0.4
+pip install pandas==2.1.1 openpyxl==3.1.2 matplotlib==3.8.0 streamlit==1.29.0 streamlit-authenticator==0.2.3 cryptography==41.0.4 tushare
 ```
 
 ## 项目启动
@@ -91,6 +93,11 @@ streamlit run main.py
 - [altair图表](https://altair.streamlit.app/)
 
 ## 更新记录
+- 2024/06/20：
+  - 数据更新：
+    - 由于choice软件异常，5月宏观数据暂未更新
+    - 更新了最新的股票相关数据，来自tushare
+  - 功能更新：增加了股票市场分析模块
 
 - 2024/06/09：
   - 数据更新：更新进出口基本.xlsx和进出口国家.xlsx

@@ -1259,10 +1259,15 @@ if __name__ == "__main__":
     st.sidebar.markdown("作者：AFAN（微信：afan-life）")
     st.sidebar.markdown("项目介绍：[macropage](https://github.com/AFAN-LIFE/macropage)")
     selection = st.sidebar.radio("当前支持的分析图表：",
-                                 ["GDP分析", "社会消费品零售总额分析", "进出口分析", "固定资产投资分析", "CPI和PPI分析",
+                                 ["股票市场", "GDP分析", "社会消费品零售总额分析", "进出口分析", "固定资产投资分析", "CPI和PPI分析",
                                   "PMI分析", "社融和货币供应分析", "财政数据分析", "人口就业分析", "外汇分析",
-                                  "房地产投资分析", "开发测试"])
-    if selection == "GDP分析":
+                                  "房地产投资分析"
+                                     # , "开发测试"
+                                  ])
+    if selection == "股票市场":
+        from stock import stock_market_analysis
+        stock_market_analysis()
+    elif selection == "GDP分析":
         GDP_analysis()
     elif selection == "社会消费品零售总额分析":
         TRSCG_analysis()
@@ -1284,6 +1289,6 @@ if __name__ == "__main__":
         Forex_analysis()
     elif selection == "房地产投资分析":
         RealEstateInvest_analysis()
-    elif selection == "开发测试":
-        from test import test_func
-        test_func()
+    # elif selection == "开发测试":
+    #     from test import test_func
+    #     test_func()

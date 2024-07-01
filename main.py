@@ -316,6 +316,7 @@ class ExportCountry:
         slider_container = st.empty()
         chart_container = st.empty()
         run = st.button("播放动画", key='output_run', type='primary')
+
         def run_plot(date, object):
             selected_df = self.output_df.loc[date].reset_index()
             chart1 = alt.Chart(selected_df).mark_arc().encode(
@@ -323,6 +324,7 @@ class ExportCountry:
                 color=alt.Color(field=selected_df.columns[0], type="nominal"),
             )
             object.altair_chart(chart1, theme="streamlit", use_container_width=True)
+
         if run:
             for i in options:
                 time.sleep(0.1)
@@ -339,6 +341,7 @@ class ExportCountry:
         slider_container = st.empty()
         chart_container = st.empty()
         run = st.button("播放动画", key='input_run', type='primary')
+
         def run_plot(date, object):
             selected_df = self.input_df.loc[date].reset_index()
             chart2 = alt.Chart(selected_df).mark_arc().encode(
@@ -346,6 +349,7 @@ class ExportCountry:
                 color=alt.Color(field=selected_df.columns[0], type="nominal"),
             )
             object.altair_chart(chart2, theme="streamlit", use_container_width=True)
+
         if run:
             for i in options:
                 time.sleep(0.1)
@@ -1259,14 +1263,19 @@ if __name__ == "__main__":
     st.sidebar.markdown("作者：AFAN（微信：afan-life）")
     st.sidebar.markdown("项目介绍：[macropage](https://github.com/AFAN-LIFE/macropage)")
     selection = st.sidebar.radio("当前支持的分析图表：",
-                                 ["股票市场", "GDP分析", "社会消费品零售总额分析", "进出口分析", "固定资产投资分析", "CPI和PPI分析",
+                                 ["股票市场", "债券利率", "GDP分析", "社会消费品零售总额分析", "进出口分析",
+                                  "固定资产投资分析", "CPI和PPI分析",
                                   "PMI分析", "社融和货币供应分析", "财政数据分析", "人口就业分析", "外汇分析",
                                   "房地产投资分析"
-                                     # , "开发测试"
+                                  # , "开发测试"
                                   ])
     if selection == "股票市场":
         from stock import stock_market_analysis
+
         stock_market_analysis()
+    if selection == "债券利率":
+        from bond_interest import bond_interest_analysis
+        bond_interest_analysis()
     elif selection == "GDP分析":
         GDP_analysis()
     elif selection == "社会消费品零售总额分析":

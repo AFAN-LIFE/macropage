@@ -26,3 +26,11 @@ for i in index_list:
     tmp_df = pro.index_daily(ts_code=i, start_date='19900101', end_date=end_date)
     index_df = pd.concat([index_df, tmp_df], axis=0)
 index_df.to_csv(os.path.join(data_path, 'stock_index.csv'), index=False)
+
+# reference: https://tushare.pro/document/2?doc_id=189
+tf_list = ['TS.CFX', 'TF.CFX', 'T.CFX', 'TL.CFX']  # 2Y 5Y 10Y 30Y
+tf_df = pd.DataFrame()
+for i in tf_list:
+    tmp_df = pro.fut_mapping(ts_code=i)
+    tf_df = pd.concat([tf_df, tmp_df], axis=0)
+tf_df.to_csv(os.path.join(data_path, 'tf_continuous.csv'), index=False)

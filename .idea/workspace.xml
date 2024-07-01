@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="918413b1-d66b-46ba-b691-dd037be884a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/bond_interest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/yield.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/etl/yield_curve.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/stock_basic.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/stock_basic.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/stock_index.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/stock_index.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl/tushare.py" beforeDir="false" afterPath="$PROJECT_DIR$/etl/tushare.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +59,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\git_repo\macropage\asset" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\git_repo\macropage" />
     </key>
   </component>
   <component name="RunManager">
@@ -101,7 +110,9 @@
       <workItem from="1717932114193" duration="5333000" />
       <workItem from="1718157865861" duration="87000" />
       <workItem from="1718878048889" duration="898000" />
-      <workItem from="1718880446468" duration="9415000" />
+      <workItem from="1718880446468" duration="11112000" />
+      <workItem from="1719382903127" duration="1301000" />
+      <workItem from="1719835513602" duration="8782000" />
     </task>
     <servers />
   </component>
@@ -109,6 +120,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/macropage$tushare.coverage" NAME="tushare Coverage Results" MODIFIED="1718889927416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etl" />
+    <SUITE FILE_PATH="coverage/macropage$tushare.coverage" NAME="tushare Coverage Results" MODIFIED="1719837180359" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/etl" />
   </component>
 </project>

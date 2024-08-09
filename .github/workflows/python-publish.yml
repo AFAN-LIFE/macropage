@@ -27,6 +27,8 @@ jobs:
       env:
         TUSHARE_TOKEN: ${{secrets.TUSHARE_TOKEN}}  # 将TUSHARE密钥传递给环境变量
       run: python etl/tushare_etl.py
+    - name: update yield curve data
+      run: python etl/yield_curve.py
     - name: Commit and Push changes  # 新增步骤
       run: |
         git config --global user.name "afan"

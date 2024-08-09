@@ -24,5 +24,5 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: update tushare data
       env:
-        TUSHARE: ${{ secrets.TUSHARE_TOKEN}}  # 将TUSHARE密钥传递给环境变量
+        TUSHARE_TOKEN: ${{secrets.TUSHARE_TOKEN}}  # 将TUSHARE密钥传递给环境变量
       run: python etl/tushare_etl.py

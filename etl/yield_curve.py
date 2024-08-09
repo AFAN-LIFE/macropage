@@ -29,10 +29,13 @@ headers = {
     "sec-ch-ua-platform": "Windows"
 }
 
+origin_df = pd.read_csv(os.path.join(data_path, 'yield.csv'))
+past_year = int(origin_df['workTime'].max()[:4])
+this_year = time.localtime().tm_year
 # 结果列表
 results = []
 # 从2000年开始，按年循环
-for year in tqdm(range(2000, 2025)):  # 假设我们只请求到2024年
+for year in tqdm(range(past_year, this_year + 1)):  # 假设我们只请求到2024年
     # 设置请求的查询参数
     params = {
         "startDate": f"{year}-01-01",
@@ -62,5 +65,6 @@ real_data_list = []
 for item in results:
     if item['heList']:
         real_data_list = real_data_list + item['heList']
-df = pd.DataFrame(real_data_list).sort_values(by='workTime')
-df.to_csv(os.path.join(data_path, 'yield.csv'), index=False)
+new_df = pd.DataFrame(real_data_list).sort_values(by='workTime')
+total_df = pd.concat([origin_df, new_df], axis=0)
+total_df.to_csv(os.path.join(data_path, 'yield.csv'), index=False)

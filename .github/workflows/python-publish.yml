@@ -5,6 +5,7 @@ on:
     - cron:  '0 18 * * *'
   push:
     branches: [ "main" ]
+  workflow_dispatch:  # 添加这个事件来手动触发
 
 permissions:
   contents: write  # 允许写权限，以便提交更改

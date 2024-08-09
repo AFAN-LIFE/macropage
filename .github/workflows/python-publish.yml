@@ -2,7 +2,7 @@ name: Daily Update Partial Macropage Data
 
 on:
   schedule:
-    - cron:  '*/5 * * * *'
+    - cron:  '30 17/0 * * *'
   push:
     branches: [ "main" ]
 

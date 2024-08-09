@@ -12,6 +12,7 @@ permissions:
 jobs:
   update_tushare:
     runs-on: ubuntu-latest
+    environment: Daily Update  # 指定使用Daily Update环境
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.9

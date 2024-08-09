@@ -4,7 +4,6 @@ import pandas as pd
 import tushare as ts
 end_date = datetime.datetime.now().strftime('%Y%m%d')
 tushare_token = os.getenv('TUSHARE_TOKEN')  # 存储在github的秘钥仓库中，供action每天运行
-print(tushare_token)
 pro = ts.pro_api(tushare_token)
 data_path = 'data'
 

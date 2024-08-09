@@ -1,0 +1,28 @@
+name: Daily Update Partial Macropage Data
+
+on:
+  schedule:
+    - cron:  '*/5 * * * *'
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  update_tushare:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: update tushare data
+      env:
+        TUSHARE: ${{ secrets.TUSHARE_TOKEN}}  # 将TUSHARE密钥传递给环境变量
+      run: python etl/tushare_etl.py

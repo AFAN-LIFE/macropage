@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write  # 允许写权限，以便提交更改
 
 jobs:
   update_tushare:
@@ -27,3 +27,8 @@ jobs:
       env:
         TUSHARE_TOKEN: ${{secrets.TUSHARE_TOKEN}}  # 将TUSHARE密钥传递给环境变量
       run: python etl/tushare_etl.py
+    - name: Commit and Push changes  # 新增步骤
+      run: |
+        git add .
+        git commit -m "daily update tushare data"
+        git push

@@ -29,6 +29,8 @@ jobs:
       run: python etl/tushare_etl.py
     - name: Commit and Push changes  # 新增步骤
       run: |
+        git config --global user.name "afan"
+        git config --global user.email "fcncassandra@gmail.com"
         git add .
         git commit -m "daily update tushare data"
         git push

@@ -1,9 +1,10 @@
-import os.path
+import os
 import datetime
 import pandas as pd
 import tushare as ts
 end_date = datetime.datetime.now().strftime('%Y%m%d')
-pro = ts.pro_api('your token')
+tushare_token = os.getenv('TUSHARE_TOKEN')  # 存储在github的秘钥仓库中，供action每天运行
+pro = ts.pro_api(tushare_token)
 data_path = 'data'
 
 # reference: https://tushare.pro/document/2?doc_id=25

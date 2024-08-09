@@ -67,4 +67,5 @@ for item in results:
         real_data_list = real_data_list + item['heList']
 new_df = pd.DataFrame(real_data_list).sort_values(by='workTime')
 total_df = pd.concat([origin_df, new_df], axis=0)
+total_df = total_df.drop_duplicates()
 total_df.to_csv(os.path.join(data_path, 'yield.csv'), index=False)

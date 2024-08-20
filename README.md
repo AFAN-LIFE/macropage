@@ -1,12 +1,12 @@
 # China Macroeconomic Dashboard
 **其他语言版本: [English](README.md), [中文](README_zh.md).**
 
-**Author: AFAN (WeChat: afan-life)**  
+**Author: AFAN (WeChat: afan-life, Email: fcncassandra@gmail.com)**  
 **Online address: https://macropage.streamlit.app/**
 
 **Citation Notice: This project is under the CC-BY license. Anyone can use the demo but must cite the source.**
 
-** The following content is translated by ChatGPT**
+**The following content is translated by ChatGPT**
 
 ## Data Information
 
@@ -97,6 +97,7 @@ With this open-source project, those interested in the economy can gain a more i
 - [Altair Charts](https://altair.streamlit.app/)
 
 ## Based on the Project Creations
+- [Fixed investment continues to increase, credit is eased, and social financing goes against the trend](https://www.bilibili.com/video/BV1roWWexEmC/)
 - [Central Bank Actions! Animated Treasury Yield Curve](https://www.bilibili.com/video/BV1jx4y187ws/)  
 - [Strong Exports, Weak Imports, ASEAN Share Continues to Rise](https://www.bilibili.com/video/BV14M4m1U7iK/)  
 - [Building a China Macroeconomic Dashboard with Streamlit](https://www.bilibili.com/video/BV1fJ4m1u7u9/)

@@ -1271,7 +1271,6 @@ if __name__ == "__main__":
                                   ])
     if selection == "股票市场":
         from stock import stock_market_analysis
-
         stock_market_analysis()
     if selection == "债券利率":
         from bond_interest import bond_interest_analysis

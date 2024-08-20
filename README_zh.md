@@ -1,7 +1,7 @@
 # 中国宏观经济看板
 **其他语言版本: [English](README.md), [中文](README_zh.md).**
 
-**作者：AFAN（微信：afan-life）**   
+**作者：AFAN（微信：afan-life，邮箱：fcncassandra@gmail.com)**
 **在线地址：https://macropage.streamlit.app/**
 
 **引用说明：本项目为CC-BY协议，任何人都可以使用演示，但需要注明出处**
@@ -97,11 +97,15 @@ streamlit run main.py
 - [altair图表](https://altair.streamlit.app/)
 
 ## 基于项目的创作
+- [固定投资持续加码，信贷放水社融逆行](https://www.bilibili.com/video/BV1roWWexEmC/)
 - [央行出手！动画国债收益率曲线](https://www.bilibili.com/video/BV1jx4y187ws/)  
 - [出口强劲进口弱，东盟占比节节高](https://www.bilibili.com/video/BV14M4m1U7iK/)  
 - [用Streamlit搭建中国宏观经济数据看板](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
 ## 更新记录
+- 2024/08/20：
+  - 数据更新：更新了宏观经济数据
+
 - 2024/08/09：
   - 数据更新：更新了宏观经济数据
   - 功能更新：增加了Github Actions，每日更新Tushare和yield curve数据

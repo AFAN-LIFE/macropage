@@ -45,6 +45,8 @@ matplotlib                   3.8.0
 pandas                       2.1.1
 cryptography                 41.0.4
 openpyxl                     3.1.2
+streamlit-echarts            0.4.0
+altair                       5.2.0
 tushare
 ```
 
@@ -96,13 +98,21 @@ streamlit run main.py
 
 - [altair图表](https://altair.streamlit.app/)
 
+- [echarts图表](https://echarts.streamlit.app/)
+
 ## 基于项目的创作
-- [固定投资持续加码，信贷放水社融逆行](https://www.bilibili.com/video/BV1roWWexEmC/)
+- [24年8月回顾：九月行情能否延续？关注财政政策和地产出口](https://www.bilibili.com/video/BV19r11YrES6/)
+- [24年7月回顾：固定投资持续加码，信贷放水社融逆行](https://www.bilibili.com/video/BV1roWWexEmC/)
 - [央行出手！动画国债收益率曲线](https://www.bilibili.com/video/BV1jx4y187ws/)  
 - [出口强劲进口弱，东盟占比节节高](https://www.bilibili.com/video/BV14M4m1U7iK/)  
 - [用Streamlit搭建中国宏观经济数据看板](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
 ## 更新记录
+
+- 2024/10/07:
+  - 数据更新：更新了宏观经济数据
+  - 功能更新：增加了70城房价指数和不含在校生的失业率
+
 - 2024/08/20：
   - 数据更新：更新了宏观经济数据
 

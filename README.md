@@ -47,6 +47,8 @@ matplotlib                   3.8.0
 pandas                       2.1.1
 cryptography                 41.0.4
 openpyxl                     3.1.2
+streamlit-echarts            0.4.0
+altair                       5.2.0
 tushare
 ```
 
@@ -96,13 +98,19 @@ With this open-source project, those interested in the economy can gain a more i
 
 - [Altair Charts](https://altair.streamlit.app/)
 
-## Based on the Project Creations
-- [Fixed investment continues to increase, credit is eased, and social financing goes against the trend](https://www.bilibili.com/video/BV1roWWexEmC/)
-- [Central Bank Actions! Animated Treasury Yield Curve](https://www.bilibili.com/video/BV1jx4y187ws/)  
-- [Strong Exports, Weak Imports, ASEAN Share Continues to Rise](https://www.bilibili.com/video/BV14M4m1U7iK/)  
-- [Building a China Macroeconomic Dashboard with Streamlit](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
+## Project-Based Creations
+- [August 2024 Review: Can the September Market Momentum Continue? Focus on Fiscal Policy, Real Estate, and Exports](https://www.bilibili.com/video/BV19r11YrES6/)
+- [July 2024 Review: Continuous Growth in Fixed Investment, Credit Expansion Contrasts with Declining Social Financing](https://www.bilibili.com/video/BV1roWWexEmC/)
+- [Central Bank Intervenes! Animated Treasury Yield Curve](https://www.bilibili.com/video/BV1jx4y187ws/)  
+- [Strong Exports, Weak Imports, ASEAN's Share Keeps Growing](https://www.bilibili.com/video/BV14M4m1U7iK/)  
+- [Building a China Macroeconomic Data Dashboard with Streamlit](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
+
 
 ## Update Log
+- 2024/10/07:
+  - Data Update: Updated macroeconomic data
+  - Feature Update: Added the housing price index for 70 cities and the unemployment rate excluding students
+
 - 2024/08/09:
   - Data Update: Updated macroeconomic data
   - Feature Update: Added GitHub Actions for daily updates of Tushare and yield curve data

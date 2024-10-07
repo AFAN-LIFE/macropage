@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import altair as alt
 import streamlit as st
+from streamlit_echarts import st_echarts
 from tool import preprocess_choice_data, get_choice_unit_arr
 
 
@@ -720,6 +721,15 @@ class PopulationEnployment:
         pro_df = pro_df.loc[:, ['全国16-24岁人口城镇调查失业率', '全国25-59岁人口城镇调查失业率']]
         st.line_chart(pro_df.dropna().astype(float))
 
+    def not_student_age_unemployment_rate(self):
+        start_date = '2000-01'
+        pro_df = self.df.loc[start_date:, :].copy()
+        pro_df.columns = [i.replace(':', '-').replace("(停止)", "") for i in pro_df.columns]
+        pro_df = pro_df.loc[:,
+                 ['城镇调查失业率-不包含在校生的16至24岁劳动力', '城镇调查失业率-不包含在校生的25至29岁劳动力',
+                  '城镇调查失业率-不包含在校生的30至59岁劳动力']]
+        st.line_chart(pro_df.dropna().astype(float))
+
     def eductaion_unemployment_rate(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :].copy()
@@ -975,6 +985,96 @@ class RealEstateInvest:
         st.line_chart(pro_df.dropna().astype(float))
 
 
+class SeventyCityIndex:
+    def __init__(self):
+        df = preprocess_choice_data('data/70城.xlsx')
+        df = df[(df['指标名称'] >= '2000-01') & (df['指标名称'] <= '2099-01')]
+        df = df.replace('--', np.nan)
+        df = df.set_index('指标名称').sort_index()
+        new_house_df = df[[i for i in df.columns if '二手' in i]]
+        new_house_df.columns = [i.split(':')[0] for i in new_house_df.columns]
+        secondhand_df = df[[i for i in df.columns if '新建' in i]]
+        secondhand_df.columns = [i.split(':')[0] for i in secondhand_df.columns]
+        self.df = df
+        self.new_house_df = new_house_df
+        self.secondhand_df = secondhand_df
+
+    def multi_city_plot(self):
+        new_house_df = self.new_house_df
+        secondhand_df = self.secondhand_df
+        total_city_list = new_house_df.columns.tolist()
+        c2, c3 = st.columns([1, 1])
+        default_city_list = ['上海', '北京', '深圳', '重庆', '广州', '成都', '杭州', '武汉', '南京']
+        selected_city_list = st.multiselect('可选择多个城市', options=total_city_list, default=default_city_list)
+        house_type = c2.selectbox('指数类型', options=('二手房', '新房'), index=1)
+        start_date = c3.selectbox('开始日期', options=new_house_df.index.tolist(), index=len(new_house_df) - 24,
+                                  key='multi_city_plot')
+        if selected_city_list and house_type:  # 如果都选择了
+            chart_df = secondhand_df if house_type == '二手房' else new_house_df
+            data_df = chart_df.loc[start_date:, selected_city_list]
+            df_reset = data_df.reset_index().melt('指标名称', var_name='indicator', value_name='value')
+            # 生成 Altair 图表，支持多个指标
+            chart = alt.Chart(df_reset).mark_line().encode(
+                x='指标名称',
+                y=alt.Y('value:Q', scale=alt.Scale(domain=[data_df.min().min(), data_df.max().max()])),
+                color='indicator:N',  # 使用颜色区分不同的经济指标
+                tooltip=['指标名称', 'indicator', 'value']
+            ).properties(
+                width=600,
+                height=400
+            ).interactive()
+            st.altair_chart(chart)
+            # echarts版本当前不支持起始坐标
+            # series_list = [{'name': i, 'type': 'line', 'data': data_df[i].values.tolist()} for i in selected_city_list]
+            # options = {
+            #     "tooltip": {"trigger": "axis"},
+            #     "legend": {"data": selected_city_list},
+            #     "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
+            #     "toolbox": {"feature": {"saveAsImage": {}}},
+            #     "xAxis": {
+            #         "type": "category",
+            #         "boundaryGap": False,
+            #         "data": data_df.index.tolist(),
+            #     },
+            #     "yAxis": {
+            #         "type": "value",
+            #         'startValue': 100
+            #     },
+            #     "series": series_list
+            # }
+            # st_echarts(options=options, height="400px")
+
+    def class_city_plot(self):
+        new_house_df = self.new_house_df
+        secondhand_df = self.secondhand_df
+        total_city_list = new_house_df.columns.tolist()
+        one_line = ['北京', '上海', '广州', '深圳']
+        # 不包括：'苏州', '东莞', '佛山' 因为一方面不是省会城市或计划单列市，另一方面距离上海、深圳这两大一线城市较近。从统计学角度来讲，样本不能过于集中在同一个地区，所以未能入选
+        new_one_line = ['成都', '重庆', '杭州', '西安', '武汉', '郑州', '南京', '天津', '长沙', '宁波', '合肥', '青岛']
+        other_line = list(set(total_city_list) - set(one_line) - set(new_one_line))
+        start_date = st.selectbox('开始日期', options=new_house_df.index.tolist(), index=len(new_house_df) - 24,
+                                  key='class_city_plot')
+        data_df = pd.DataFrame()
+        for i, j in zip(['一线', '新一线', '其他'], [one_line, new_one_line, other_line]):
+            for k, tmp_df in zip(['新房', '二手房'], [new_house_df, secondhand_df]):
+                tmp_se = tmp_df.loc[start_date:, j].mean(axis=1)
+                tmp_se.name = f'{i}:{k}'
+                data_df = pd.concat([data_df, tmp_se], axis=1)
+        data_df.index.name = '指标名称'
+        df_reset = data_df.reset_index().melt('指标名称', var_name='indicator', value_name='value')
+        # 生成 Altair 图表，支持多个指标
+        chart = alt.Chart(df_reset).mark_line().encode(
+            x='指标名称',
+            y=alt.Y('value:Q', scale=alt.Scale(domain=[data_df.min().min(), data_df.max().max()])),
+            color='indicator:N',  # 使用颜色区分不同的经济指标
+            tooltip=['指标名称', 'indicator', 'value']
+        ).properties(
+            width=600,
+            height=400
+        ).interactive()
+        st.altair_chart(chart)
+
+
 def GDP_analysis():
     gdp = GDP()
     st.title('GDP总体分析')
@@ -1191,6 +1291,9 @@ def PopulationEnployment_analysis():
     st.title('总体失业率曲线')
     st.write('单位：百分比@月')
     population_enployment.total_unemployment_rate()
+    st.title('不含在校生不同年龄失业率情况')
+    st.write('单位：百分比@月')
+    population_enployment.not_student_age_unemployment_rate()
     st.title('不同年龄失业率情况')
     st.write('单位：百分比@月')
     population_enployment.age_unemployment_rate()
@@ -1258,6 +1361,18 @@ def RealEstateInvest_analysis():
     real_estate_invest.money_structure()
 
 
+def SeventyCityIndex_analysis():
+    seventy_city_index = SeventyCityIndex()
+    st.title('70城指数走势')
+    st.write('单位：特殊单位@月@环比指数')
+    st.write('默认展示GDP前10的城市，不含苏州')
+    seventy_city_index.multi_city_plot()
+    st.title('一线新一线指数走势')
+    st.write('单位：特殊单位@月@环比指数')
+    st.write('一线为北上广深，新一线为：成都、重庆、杭州、西安、武汉、郑州、南京、天津、长沙、宁波、合肥、青岛')
+    seventy_city_index.class_city_plot()
+
+
 if __name__ == "__main__":
     st.sidebar.markdown("# 中国宏观经济看板")
     st.sidebar.markdown("作者：AFAN（微信：afan-life）")
@@ -1266,14 +1381,16 @@ if __name__ == "__main__":
                                  ["股票市场", "债券利率", "GDP分析", "社会消费品零售总额分析", "进出口分析",
                                   "固定资产投资分析", "CPI和PPI分析",
                                   "PMI分析", "社融和货币供应分析", "财政数据分析", "人口就业分析", "外汇分析",
-                                  "房地产投资分析"
+                                  "房地产投资分析", "70城房价指数"
                                   # , "开发测试"
                                   ])
     if selection == "股票市场":
         from stock import stock_market_analysis
+
         stock_market_analysis()
     if selection == "债券利率":
         from bond_interest import bond_interest_analysis
+
         bond_interest_analysis()
     elif selection == "GDP分析":
         GDP_analysis()
@@ -1297,6 +1414,8 @@ if __name__ == "__main__":
         Forex_analysis()
     elif selection == "房地产投资分析":
         RealEstateInvest_analysis()
+    elif selection == "70城房价指数":
+        SeventyCityIndex_analysis()
     # elif selection == "开发测试":
     #     from test import test_func
     #     test_func()

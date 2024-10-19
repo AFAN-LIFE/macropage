@@ -27,6 +27,7 @@
 - 11 房地产投资数据
 - 12 股票基本数据、股票指数数据
 - 13 国债收益率曲线数据
+- 14 美国宏观经济数据
 
 ## 环境管理
 
@@ -101,6 +102,7 @@ streamlit run main.py
 - [echarts图表](https://echarts.streamlit.app/)
 
 ## 基于项目的创作
+- [24年9月回顾：炒股炒坏剪刀差？外商投资下滑加快](https://www.bilibili.com/video/BV1YxCoYeEqJ/)
 - [24年8月回顾：九月行情能否延续？关注财政政策和地产出口](https://www.bilibili.com/video/BV19r11YrES6/)
 - [24年7月回顾：固定投资持续加码，信贷放水社融逆行](https://www.bilibili.com/video/BV1roWWexEmC/)
 - [央行出手！动画国债收益率曲线](https://www.bilibili.com/video/BV1jx4y187ws/)  
@@ -108,6 +110,11 @@ streamlit run main.py
 - [用Streamlit搭建中国宏观经济数据看板](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
 ## 更新记录
+- 2024/10/19:
+  - 数据更新：
+    - 更新了宏观经济数据
+    - 增加了美国宏观经济数据、印花税和交易额数据
+  - 功能更新：增加了70城房价指数和不含在校生的失业率
 
 - 2024/10/07:
   - 数据更新：更新了宏观经济数据

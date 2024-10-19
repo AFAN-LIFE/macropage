@@ -29,6 +29,7 @@ The project's data is stored in the [data](data)folder, and the categories curre
 - 11 Real estate investment data
 - 12 Basic stock market data, stock index data
 - 13 Government bond yield curve data
+- 14 U.S. macroeconomic data
 
 ## Environment Management
 
@@ -99,14 +100,20 @@ With this open-source project, those interested in the economy can gain a more i
 - [Altair Charts](https://altair.streamlit.app/)
 
 ## Project-Based Creations
+- [September 2024 Review: Has Stock Trading Worsened the Scissor Gap? Acceleration of Foreign Investment Decline](https://www.bilibili.com/video/BV1YxCoYeEqJ/)
 - [August 2024 Review: Can the September Market Momentum Continue? Focus on Fiscal Policy, Real Estate, and Exports](https://www.bilibili.com/video/BV19r11YrES6/)
 - [July 2024 Review: Continuous Growth in Fixed Investment, Credit Expansion Contrasts with Declining Social Financing](https://www.bilibili.com/video/BV1roWWexEmC/)
 - [Central Bank Intervenes! Animated Treasury Yield Curve](https://www.bilibili.com/video/BV1jx4y187ws/)  
 - [Strong Exports, Weak Imports, ASEAN's Share Keeps Growing](https://www.bilibili.com/video/BV14M4m1U7iK/)  
 - [Building a China Macroeconomic Data Dashboard with Streamlit](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
-
 ## Update Log
+- 2024/10/19: 
+  - Data Updates:
+    - Updated macroeconomic data
+    - Added U.S. macroeconomic data, stamp duty, and trading volume data
+  - Feature Updates: Added the housing price index for 70 cities and the unemployment rate excluding students
+
 - 2024/10/07:
   - Data Update: Updated macroeconomic data
   - Feature Update: Added the housing price index for 70 cities and the unemployment rate excluding students

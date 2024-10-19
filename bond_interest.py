@@ -28,7 +28,7 @@ class BondInterest:
         yield_df = yield_df.loc[:, term_order]
         options = yield_df.index.tolist()
         options = sorted(options)
-        date = st.select_slider("请选择想要查询的日期", options=options, key='yield_curve')
+        date = st.select_slider("请选择想要查询的日期", options=options, key='yield_curve', value=options[-1])
 
         # 创建2个空的容器
         slider_container = st.empty()

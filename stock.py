@@ -10,6 +10,7 @@ class StockMarket:
         self.stock_basic_df = pd.read_csv('data/stock_basic.csv')
         self.stock_index_df = pd.read_csv('data/stock_index.csv')
 
+    # TODO 修改为蜡烛图：https://altair-viz.github.io/gallery/candlestick_chart.html
     def sh_index_plot(self):
         index_df = self.stock_index_df[self.stock_index_df['ts_code'] == '000001.SH'].sort_values(
             by='trade_date').set_index('trade_date')

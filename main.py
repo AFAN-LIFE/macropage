@@ -311,7 +311,7 @@ class ExportCountry:
 
     def output_portion(self):
         options = self.output_df.index.tolist()
-        date = st.select_slider("请选择想要查询的日期", options=options, key='output_portion')
+        date = st.select_slider("请选择想要查询的日期", options=options, key='output_portion', value=options[-1])
         st.write("当前选择的日期是：", date)
         # 创建2个空的容器
         slider_container = st.empty()
@@ -336,7 +336,7 @@ class ExportCountry:
 
     def input_portion(self):
         options = self.input_df.index.tolist()
-        date = st.select_slider("请选择想要查询的日期", options=options, key='input_portion')
+        date = st.select_slider("请选择想要查询的日期", options=options, key='input_portion', value=options[-1])
         st.write("当前选择的日期是：", date)
         # 创建2个空的容器
         slider_container = st.empty()
@@ -565,18 +565,31 @@ class FinancingMoney:
     def money_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        c1, c2 = st.columns([1, 1])
+        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
+                                  key='start_money_plot')
+        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df)-1,
+                                  key='end_money_plot')
+        pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         pro_df = pro_df.loc[:,
                  ['M0:同比', 'M1:同比', 'M2:同比']]
-        pro_df.columns = ['政府债券', '贷款核销', '存款机构ABS']
+        # pro_df.columns = ['M0同', '贷款核销', '存款机构ABS']
         st.line_chart(pro_df.dropna().astype(float))
 
     def money_scissors(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        c1, c2 = st.columns([1, 1])
+        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
+                                  key='start_money_scissors')
+        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df)-1,
+                                  key='end_money_scissors')
+        pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         pro_df['M1-M2增速'] = pro_df['M1:同比'] - pro_df['M2:同比']
         pro_df['社融-M2增速'] = pro_df['社融存量:同比增速'] * 100 - pro_df['M2:同比']
         pro_df = pro_df.loc[:, ['M1-M2增速', '社融-M2增速']]
         st.line_chart(pro_df.dropna().astype(float))
+
 
 
 class Fiscal:
@@ -698,7 +711,27 @@ class Fiscal:
         pro_df = pro_df.astype(float)
         st.bar_chart(pro_df)
 
-
+    def exchange_fee(self):
+        start_date = '2000-01'
+        pro_df = self.df.loc[start_date:, ['交易印花税:当月值', '股票成交金额:当月值']]
+        c1, c2 = st.columns([1, 1])
+        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
+                                  key='start_exchange_fee')
+        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df)-1,
+                                  key='end_exchange_fee')
+        pro_df = pro_df.loc[selected_start_date:selected_end_date, :].reset_index().dropna()
+        pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
+        bars = alt.Chart(pro_df).mark_bar().encode(
+            x='指标名称',
+            y='股票成交金额:当月值'.replace(':', '-')
+        )
+        line = alt.Chart(pro_df).mark_line(color='red').encode(
+            x='指标名称',
+            y='交易印花税:当月值'.replace(':', '-')
+        )
+        # 将柱状图和折线图组合在一起
+        chart = alt.layer(bars, line).resolve_scale(y='independent')
+        st.altair_chart(chart, use_container_width=True)
 class PopulationEnployment:
     def __init__(self):
         df = preprocess_choice_data('data/人口就业.xlsx')
@@ -1284,7 +1317,9 @@ def Fiscal_analysis():
     st.title('土地出让金收入')
     st.write('单位：亿元@月')
     fiscal.land_grand_fee()
-
+    st.title('证券交易印花税收入')
+    st.write('单位：亿元@月')
+    fiscal.exchange_fee()
 
 def PopulationEnployment_analysis():
     population_enployment = PopulationEnployment()
@@ -1381,16 +1416,14 @@ if __name__ == "__main__":
                                  ["股票市场", "债券利率", "GDP分析", "社会消费品零售总额分析", "进出口分析",
                                   "固定资产投资分析", "CPI和PPI分析",
                                   "PMI分析", "社融和货币供应分析", "财政数据分析", "人口就业分析", "外汇分析",
-                                  "房地产投资分析", "70城房价指数"
+                                  "房地产投资分析", "70城房价指数", "美国宏观"
                                   # , "开发测试"
                                   ])
     if selection == "股票市场":
         from stock import stock_market_analysis
-
         stock_market_analysis()
     if selection == "债券利率":
         from bond_interest import bond_interest_analysis
-
         bond_interest_analysis()
     elif selection == "GDP分析":
         GDP_analysis()
@@ -1416,6 +1449,10 @@ if __name__ == "__main__":
         RealEstateInvest_analysis()
     elif selection == "70城房价指数":
         SeventyCityIndex_analysis()
+    elif selection == '美国宏观':
+        from universe.america import AmericaBasic_analysis
+        AmericaBasic_analysis()
+
     # elif selection == "开发测试":
     #     from test import test_func
     #     test_func()

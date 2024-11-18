@@ -6,6 +6,52 @@ import matplotlib.pyplot as plt
 from tool import preprocess_choice_data
 
 
+class AmericaIndex:
+    def __init__(self):
+        self.df = pd.read_csv('data/global_index.csv')
+
+    def spx_index_plot(self):
+        index_df = self.df[self.df['ts_code'] == 'SPX'].sort_values(
+            by='trade_date').set_index('trade_date')
+        index_df.index = index_df.index.astype(str)
+        index_df['vol'] = index_df['vol'] / 1e5  # 千股 -> 亿股
+        options = index_df.index.tolist()
+        date = st.select_slider("请选择想要查询的日期", options=options, value=options[-240], key='spx_index_plot')
+        st.write("当前选择的起始日期是：", date)
+        pro_df = index_df.loc[date:, :].reset_index()
+        bars = alt.Chart(pro_df).mark_bar().encode(
+            x='trade_date',
+            y='vol'
+        )
+        line = alt.Chart(pro_df).mark_line(color='red').encode(
+            x='trade_date',
+            y='close'
+        )
+        # 将柱状图和折线图组合在一起
+        chart = alt.layer(line, bars).resolve_scale(y='independent')
+        st.altair_chart(chart, use_container_width=True)
+
+    def ixic_index_plot(self):
+        index_df = self.df[self.df['ts_code'] == 'IXIC'].sort_values(
+            by='trade_date').set_index('trade_date')
+        index_df.index = index_df.index.astype(str)
+        index_df['vol'] = index_df['vol'] / 1e5  # 千股 -> 亿股
+        options = index_df.index.tolist()
+        date = st.select_slider("请选择想要查询的日期", options=options, value=options[-240], key='ixic_index_plot')
+        st.write("当前选择的起始日期是：", date)
+        pro_df = index_df.loc[date:, :].reset_index()
+        bars = alt.Chart(pro_df).mark_bar().encode(
+            x='trade_date',
+            y='vol'
+        )
+        line = alt.Chart(pro_df).mark_line(color='red').encode(
+            x='trade_date',
+            y='close'
+        )
+        # 将柱状图和折线图组合在一起
+        chart = alt.layer(line, bars).resolve_scale(y='independent')
+        st.altair_chart(chart, use_container_width=True)
+
 class AmericaBasic:
     def __init__(self):
         df = preprocess_choice_data('data/美国宏观.xlsx')
@@ -121,6 +167,13 @@ class AmericaBasic:
 
 
 def AmericaBasic_analysis():
+    america_index = AmericaIndex()
+    st.title('标普500指数走势图')
+    st.write('单位：特殊单位/亿股@日')
+    america_index.spx_index_plot()
+    st.title('纳斯达克指数走势图')
+    st.write('单位：特殊单位/亿股@日')
+    america_index.ixic_index_plot()
     america_basic = AmericaBasic()
     st.title('非农人口就业情况')
     st.write('单位：千人@月')
@@ -131,7 +184,7 @@ def AmericaBasic_analysis():
     st.title('CPI和PPI情况')
     st.write('单位：百分比@月')
     america_basic.cpi_ppi_plot()
-    st.title('ISM PMI和情况')
+    st.title('ISM PMI情况')
     st.write('单位：百分比@月')
     america_basic.pmi_plot()
     st.title('M1和M2增速情况')

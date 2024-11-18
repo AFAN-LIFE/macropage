@@ -108,15 +108,20 @@ With this open-source project, those interested in the economy can gain a more i
 - [Building a China Macroeconomic Data Dashboard with Streamlit](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
 ## Update Log
-- 2024/10/19: 
-  - Data Updates:
-    - Updated macroeconomic data
-    - Added U.S. macroeconomic data, stamp duty, and trading volume data
-  - Feature Updates: Added the housing price index for 70 cities and the unemployment rate excluding students
+- 2024/11/19:  
+  - Data Update:  
+    - Updated macroeconomic data  
+    - Added some U.S. stock index data  
 
-- 2024/10/07:
-  - Data Update: Updated macroeconomic data
-  - Feature Update: Added the housing price index for 70 cities and the unemployment rate excluding students
+-  2024/10/19:  
+  - Data Update:  
+    - Updated macroeconomic data  
+    - Added some U.S. macroeconomic data  
+
+- 2024/10/07:  
+  - Data Update:  
+    - Updated macroeconomic data  
+    - Added the housing price index for 70 cities and the unemployment rate excluding students  
 
 - 2024/08/09:
   - Data Update: Updated macroeconomic data

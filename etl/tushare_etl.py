@@ -5,7 +5,7 @@ import tushare as ts
 end_date = datetime.datetime.now().strftime('%Y%m%d')
 tushare_token = os.getenv('TUSHARE_TOKEN')  # 存储在github的秘钥仓库中，供action每天运行
 pro = ts.pro_api(tushare_token)
-data_path = 'data'
+data_path = '../data'
 
 # reference: https://tushare.pro/document/2?doc_id=25
 #查询当前所有正常上市交易的股票列表
@@ -35,3 +35,12 @@ for i in tf_list:
     tmp_df = pro.fut_mapping(ts_code=i)
     tf_df = pd.concat([tf_df, tmp_df], axis=0)
 tf_df.to_csv(os.path.join(data_path, 'tf_continuous.csv'), index=False)
+
+# reference: https://www.tushare.pro/document/2?doc_id=211
+# 查询美股指数
+global_list = ['SPX', 'IXIC']
+global_df = pd.DataFrame()
+for i in global_list:
+    tmp_df = pro.index_global(ts_code=i, start_date='19900101', end_date=end_date)
+    global_df = pd.concat([global_df, tmp_df], axis=0)
+global_df.to_csv(os.path.join(data_path, 'global_index.csv'), index=False)

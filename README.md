@@ -1,45 +1,45 @@
-# China Macroeconomic Dashboard
-**其他语言版本: [English](README.md), [中文](README_zh.md).**
+# 中国宏观经济看板
+**其他语言版本: [English](README.md), [中文](README.md).**
 
-**Author: AFAN (WeChat: afan-life, Email: fcncassandra@gmail.com)**  
-**Online address: https://macropage.streamlit.app/**
+**作者：AFAN（微信：afan-life，邮箱：fcncassandra@gmail.com)**
+**在线地址：https://macropage.streamlit.app/**
 
-**Citation Notice: This project is under the CC-BY license. Anyone can use the demo but must cite the source.**
+[![Macropage主页](asset/homepage.png)](https://macropage.streamlit.app/)
 
-**The following content is translated by ChatGPT**
+**引用说明：本项目为CC-BY协议，任何人都可以使用演示，但需要注明出处**
 
-## Data Information
+## 数据说明
 
-Most of the data in this project is currently exported by myself using the Choice financial terminal. There may be plans to use other data interfaces or expand the data in the future, but unless something unexpected happens, the data will be **updated at least once a month**.
+本项目的数据目前大部分都是我自己用choice金融终端导出来的，未来也可能有计划使用其他的数据接口或者扩充更多的数据，但是不出意外至少会**1个月刷新1次数据**。
 
-Due to the different update times of various macroeconomic data, there may sometimes be cases where the latest data is not fully updated. Please understand. For detailed data updates, please refer to the [2024 National Bureau of Statistics Data Release Calendar](https://www.stats.gov.cn/xxgk/sjfb/fbrcb/202312/t20231229_1946090.html).
+由于不同宏观经济数据的更新时间不统一，所以有时候可能出现最新数据中未更新完的情况，请谅解。详细的数据更新请查看[2024年统计局数据日历](https://www.stats.gov.cn/xxgk/sjfb/fbrcb/202312/t20231229_1946090.html)
 
-The project's data is stored in the [data](data)folder, and the categories currently included are:
+项目的数据都在[data](data)文件夹下，当前已经包含的数据类别有：
 
-- 1 GDP data
-- 2 Retail sales data
-- 3 Basic import and export data, regional import and export data
-- 4 Fixed asset investment data
-- 5 CPI and PPI data
-- 6 PMI data
-- 7 Social financing and monetary data
-- 8 Fiscal data
-- 9 Population and employment data
-- 10 Foreign exchange data
-- 11 Real estate investment data
-- 12 Basic stock market data, stock index data
-- 13 Government bond yield curve data
-- 14 U.S. macroeconomic data
+- 1 GDP数据
+- 2 社零数据
+- 3 进出口基本数据、进出口区域数据
+- 4 固定资产投资数据
+- 5 CPI和PPI数据
+- 6 PMI数据
+- 7 社融和货币数据
+- 8 财政数据
+- 9 人口就业数据
+- 10 外汇数据
+- 11 房地产投资数据
+- 12 股票基本数据、股票指数数据
+- 13 国债收益率曲线数据
+- 14 美国宏观经济数据
 
-## Environment Management
+## 环境管理
 
-It is recommended to use `Python=3.9` for this project and create a separate conda environment to prevent version conflicts:
+本工程推荐使用`Python=3.9`，并建议另外新建conda环境，防止版本交叉污染：
 
 ```
 conda create -n macropage python=3.9
 ```
 
-Core Python package versions:
+Python的核心包版本：
 
 ```
 streamlit                    1.29.0
@@ -53,93 +53,104 @@ altair                       5.2.0
 tushare
 ```
 
-Install in one step:
+一步安装：
 
 ```
 pip install pandas==2.1.1 openpyxl==3.1.2 matplotlib==3.8.0 streamlit==1.29.0 streamlit-authenticator==0.2.3 cryptography==41.0.4 tushare
 ```
 
-## Project Launch
+## 项目启动
 
-Run the following command in the macropage conda environment:
+在macropage的conda环境下执行：
 
 ```
 streamlit run main.py
 ```
 
-The project will start at `http://localhost:8501/` by default.
+默认在`http://localhost:8501/`启动
 
-## In-depth Project Learning
+## 深入学习项目
 
-- Scan the code to join the Knowledge Planet: AFAN's Fintech, where you can watch past macroeconomic data analysis columns and Streamlit teaching sessions in the live stream playback:
+- 扫码加入知识星球：AFAN的金融科技，收看专栏中的宏观经济数据往期分析，以及直播回放中的streamlit教学：
 
-<img src="asset/planet.jpg" title="" alt="Knowledge Planet: AFAN's Fintech" width="199">
+<img src="asset/planet.jpg" title="" alt="知识星球：AFAN的金融科技" width="199">
 
-- Contact AFAN on WeChat to join the Fintech Learning Community (WeChat: afan-life):  
+- 微信联系AFAN，加入金融科技学习社群（微信：afan-life）：  
 
-<img src="asset/weixin.png" title="" alt="WeChat: afan-life" width="199">
+<img src="asset/weixin.png" title="" alt="微信：afan-life" width="199">
 
-## Project Background
 
-Last year (2023), I accidentally bought a copy of Li Qilin's book "Macro Economic Data Analysis Handbook" and found it to be fascinating. My undergraduate and master's studies were in finance, so I naturally learned a lot of macroeconomic knowledge from textbooks. However, I had little understanding of how this data was collected, its standards, update frequency, and the relationships between different data categories.
+## 项目说明
 
-Later, I started working in fintech and grew to prefer more direct things like code and models. This book gave me the same feeling. So I thought, why not use the Choice financial data platform to obtain all the macroeconomic data in this handbook and then implement it all in Python code?
+去年（2023年）的时候，我偶然买到了一本李奇霖老师的《宏观经济数据分析手册》，翻阅一下就爱不释手。我的本硕都是金融类专业，自然是从课本中学到很多宏观经济知识，但是对于这些数据怎么采集的、口径是如何、更新频率是多少，以及不同类别数据中存在的关系，其实是知之甚少。
 
-Soon, I implemented most of the analysis charts in my Knowledge Planet: **[AFAN's Fintech](https://t.zsxq.com/QBfx5)**. Not long ago, I also taught **[Streamlit](https://t.zsxq.com/ip6Zt)**, a very useful Python open-source visualization framework, in my regular live streams. So I thought, why not combine the two into an open-source project?
+后来我一直从事金融科技的相关工作，也更喜欢代码和模型这些更直接的东西，这本书给我的感觉也是如此。于是我就想到何不把这里面的宏观经济数据手册的数据利用choice金融数据平台全部获取后，自己编写Python代码全部实现一遍？
 
-This project follows the CC-BY license, meaning anyone can freely use and modify it, but you must cite the source. If you cannot deploy it locally, this project has also been published on the Streamlit community, and [you can access it directly](https://macropage.streamlit.app/). If you have further customization needs, feel free to contact me for paid cooperation.
+很快我在自己的知识星球：**[AFAN的金融科技](https://t.zsxq.com/QBfx5)** 中，把这里面大部分的分析图表做了代码实现。此外不久前，我在自己的星球定期直播中 **[教学了streamlit](https://t.zsxq.com/ip6Zt)** 这个非常好用的Python开源可视化框架，就想着能不能结合到一起变成一个开源项目。
 
-With this open-source project, those interested in the economy can gain a more intuitive understanding of real data. Some content creators can also use this as a supplementary material for their videos, including myself. If you encounter any issues while using it, you can raise an issue or add me on WeChat: afan-life for discussion.
+本项目遵循CC-BY协议，也即大家可以用完全自由的使用和修改这个项目，但是要注明来源。如果不会本地部署的话，这个项目在streamlit社区上也进行了发布，[可以直接访问](https://macropage.streamlit.app/)。如果有进一步的定制开发的需要，也可以找我付费合作~
 
-## Development References
+利用这个开源项目，对经济感兴趣的小伙伴可以更加直观的了解到真实数据的情况，一些自媒体的UP主也可以利用这个作为视频中的素材补充，当然也包括我哈哈。欢迎大家使用中有问题也可以给我提issues或者加我微信：afan-life进行交流~
 
-- [Streamlit Official API Documentation](https://docs.streamlit.io/library/api-reference)
 
-- [Streamlit-Authenticator for Secure Login](https://github.com/mkhorasani/Streamlit-Authenticator)
+## 开发参考文档
 
-- [Altair Charts](https://altair.streamlit.app/)
+- [Streamlit官网API操作手册](https://docs.streamlit.io/library/api-reference)
 
-## Project-Based Creations
-- [September 2024 Review: Has Stock Trading Worsened the Scissor Gap? Acceleration of Foreign Investment Decline](https://www.bilibili.com/video/BV1YxCoYeEqJ/)
-- [August 2024 Review: Can the September Market Momentum Continue? Focus on Fiscal Policy, Real Estate, and Exports](https://www.bilibili.com/video/BV19r11YrES6/)
-- [July 2024 Review: Continuous Growth in Fixed Investment, Credit Expansion Contrasts with Declining Social Financing](https://www.bilibili.com/video/BV1roWWexEmC/)
-- [Central Bank Intervenes! Animated Treasury Yield Curve](https://www.bilibili.com/video/BV1jx4y187ws/)  
-- [Strong Exports, Weak Imports, ASEAN's Share Keeps Growing](https://www.bilibili.com/video/BV14M4m1U7iK/)  
-- [Building a China Macroeconomic Data Dashboard with Streamlit](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
+- [Streamlit-Authenticator加密登录](https://github.com/mkhorasani/Streamlit-Authenticator)
 
-## Update Log
-- 2024/11/19:  
-  - Data Update:  
-    - Updated macroeconomic data  
-    - Added some U.S. stock index data  
+- [altair图表](https://altair.streamlit.app/)
 
--  2024/10/19:  
-  - Data Update:  
-    - Updated macroeconomic data  
-    - Added some U.S. macroeconomic data  
+- [echarts图表](https://echarts.streamlit.app/)
 
-- 2024/10/07:  
-  - Data Update:  
-    - Updated macroeconomic data  
-    - Added the housing price index for 70 cities and the unemployment rate excluding students  
+## 基于项目的创作
+- [24年10月回顾：川普胜选比特币飞涨，地产企稳十万亿启动 ](https://www.bilibili.com/video/BV14DSwYnE9N/)
+- [24年9月回顾：炒股炒坏剪刀差？外商投资下滑加快](https://www.bilibili.com/video/BV1YxCoYeEqJ/)
+- [24年8月回顾：九月行情能否延续？关注财政政策和地产出口](https://www.bilibili.com/video/BV19r11YrES6/)
+- [24年7月回顾：固定投资持续加码，信贷放水社融逆行](https://www.bilibili.com/video/BV1roWWexEmC/)
+- [央行出手！动画国债收益率曲线](https://www.bilibili.com/video/BV1jx4y187ws/)  
+- [出口强劲进口弱，东盟占比节节高](https://www.bilibili.com/video/BV14M4m1U7iK/)  
+- [用Streamlit搭建中国宏观经济数据看板](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
-- 2024/08/09:
-  - Data Update: Updated macroeconomic data
-  - Feature Update: Added GitHub Actions for daily updates of Tushare and yield curve data
+## 更新记录
+- 2024/11/19:
+  - 数据更新：
+    - 更新了宏观经济数据
+    - 增加了部分美国股票指数数据
 
-- 2024/07/01:
-  - Data Update: Updated stock market data
-  - Feature Update: Added bond yield curve data from the Ministry of Finance
+- 2024/10/19:
+  - 数据更新：
+    - 更新了宏观经济数据
+    - 增加了部分美国宏观数据
 
-- 2024/06/21:
-  - Data Update: Updated May macroeconomic data
+- 2024/10/07:
+  - 数据更新：
+    - 更新了宏观经济数据
+    - 增加了70城房价指数和不含在校生的失业率
 
-- 2024/06/20:
-  - Data Update:
-    - Due to a Choice software issue, May macroeconomic data has not been updated
-    - Updated the latest stock-related data from Tushare
-  - Feature Update: Added stock market analysis module
+- 2024/08/20：
+  - 数据更新：更新了宏观经济数据
 
-- 2024/06/09:
-  - Data Update: Updated basic import and export.xlsx and import and export countries.xlsx
-  - Feature Update: Added a button to play pie chart animations in the import and export analysis section
+- 2024/08/09：
+  - 数据更新：更新了宏观经济数据
+  - 功能更新：增加了Github Actions，每日更新Tushare和yield curve数据
+
+- 2024/07/01：
+  - 数据更新：更新了股票市场数据
+  - 功能更新：增加了债券收益率曲线数据，来自财政部
+
+- 2024/06/21：
+  
+  - 数据更新：更新5月宏观经济数据
+
+- 2024/06/20：
+  
+  - 数据更新：
+    - 由于choice软件异常，5月宏观数据暂未更新
+    - 更新了最新的股票相关数据，来自tushare
+  - 功能更新：增加了股票市场分析模块
+
+- 2024/06/09：
+  
+  - 数据更新：更新进出口基本.xlsx和进出口国家.xlsx
+  - 功能更新：在进出口分析增加了播放饼图动画的按钮

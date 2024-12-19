@@ -57,7 +57,7 @@ class BondInterest:
         if run:
             start_idx = options.index(start_play)
             for i in options[start_idx:]:
-                # time.sleep(1/speed)
+                time.sleep(1/speed)
                 slider_container.select_slider("Select Date", options=options, value=i, key=i)
                 run_plot(i, chart_container)
         else:

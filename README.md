@@ -104,6 +104,7 @@ streamlit run main.py
 - [echarts图表](https://echarts.streamlit.app/)
 
 ## 基于项目的创作
+- [24年11月回顾：货币政策转向明显，国债利率跌破警线 ](https://www.bilibili.com/video/BV1CskBYbEaq/)
 - [24年10月回顾：川普胜选比特币飞涨，地产企稳十万亿启动 ](https://www.bilibili.com/video/BV14DSwYnE9N/)
 - [24年9月回顾：炒股炒坏剪刀差？外商投资下滑加快](https://www.bilibili.com/video/BV1YxCoYeEqJ/)
 - [24年8月回顾：九月行情能否延续？关注财政政策和地产出口](https://www.bilibili.com/video/BV19r11YrES6/)
@@ -113,6 +114,8 @@ streamlit run main.py
 - [用Streamlit搭建中国宏观经济数据看板](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
 ## 更新记录
+- 2024/12/19：月度更新 
+
 - 2024/11/19:
   - 数据更新：
     - 更新了宏观经济数据

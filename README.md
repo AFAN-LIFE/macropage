@@ -69,6 +69,50 @@ streamlit run main.py
 
 默认在`http://localhost:8501/`启动
 
+## docker部署使用
+
+### 镜像获取
+
+网络条件允许可以直接docker下拉镜像：
+
+```shell
+docker pull afanlife/macropage:v1.1
+```
+
+网络条件受限，可以切换到本工程目录后，根据Dockerfile进行build：
+
+```shell
+docker build -t macropage:v1.1 .
+```
+
+### 容器启动
+
+#### 方式1：基于compose启动（推荐）
+
+基于本地已经编写好的compose.yaml直接启动
+
+```shell
+docker compose up -d  # 启动并创建所有容器
+docker compose down  # 停止并清除所有容器
+```
+
+
+#### 方式2：手动启动容器
+
+可以切换到本工程目录后，执行以下代码进行项目启动，启动成功即可在`http://localhost:8501/` 查看本地部署实例
+
+```shell
+docker run -d -p 8501:8501 -v .:/opt/code --name macropage-app macropage:v1.1 bash -c "cd /opt/code && streamlit run main.py"
+```
+
+#### 相关辅助指令
+
+```shell
+docker logs macropage-app  # 启动失败可以查看容器内部的运行日志
+docker exec -it macropage-app /bin/bash  # 启动后可以进入容器后查看 
+exit  # 容器内退出
+```
+
 ## 深入学习项目
 
 - 扫码加入知识星球：AFAN的金融科技，收看专栏中的宏观经济数据往期分析，以及直播回放中的streamlit教学：

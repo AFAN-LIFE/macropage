@@ -1,0 +1,12 @@
+services:
+  macropage:
+    image: macropage:v1.1
+    container_name: macropage-app
+    # network_mode: host # 不要使用host模式，会出现异常，更推荐使用bridge模式端口映射
+    volumes:
+      - .:/opt/code  # 设置代码挂载目录
+    restart: always
+    ports:
+      - "8501:8501"  # 确保映射了端口
+    working_dir: /opt/code  # 设置容器的工作目录
+    command: ["/opt/miniconda/bin/streamlit", "run", "main.py"]

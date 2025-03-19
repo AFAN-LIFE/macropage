@@ -62,6 +62,35 @@ class BondInterest:
                 run_plot(i, chart_container)
         else:
             run_plot(date, st)
+
+    def time_series_yield(self):
+        yield_df = self.yield_df.copy().set_index('workTime')
+        term_dict = {
+            'threeMonth': '3m',
+            'sixMonth': '6m',
+            'oneYear': '1y',
+            'twoYear': '3y',
+            'fiveYear': '5y',
+            'sevenYear': '7y',
+            'tenYear': '10y',
+            'fifteenYear': '15y',
+            'twentyYear': '20y',
+            'thirtyYear': '30y'
+        }
+        yield_df = yield_df.rename(term_dict, axis=1)
+        term_order = ['3m', '6m', '1y', '3y', '5y', '7y', '10y', '15y', '20y', '30y']
+        options = yield_df.index.tolist()
+        options = sorted(options)
+        show_term_list = st.multiselect('请选择要展示的时期（可多个）', options=term_order, default=term_order)
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 30 * 2,
+                                           key='start_term_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_term_date')
+        selected_df = yield_df.loc[str(start_date):str(end_date), show_term_list]
+        st.line_chart(selected_df)
+        st.write(selected_df)
+
     # def tf_continuous_plot(self):
     #     tf_continuous_df = self.tf_continuous_df.copy()
     #     tf_continuous_df['trade_date'] = tf_continuous_df['trade_date'].astype(str)
@@ -83,9 +112,13 @@ class BondInterest:
 
 def bond_interest_analysis():
     bond_interest = BondInterest()
-    st.title('国债收益率曲线')
+    st.title('国债收益率曲线（截面）')
     st.write('单位：百分比@日')
     bond_interest.yield_curve()
+    st.title('国债收益率曲线（时序）')
+    st.write('单位：百分比@日')
+    bond_interest.time_series_yield()
+
     # st.title('国债期货走势图')
     # st.write('单位：元@日')
     # bond_interest.tf_continuous_plot()

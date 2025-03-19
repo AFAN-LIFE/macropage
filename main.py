@@ -81,38 +81,68 @@ class PMI:
 
     def total_plot(self):
         pro_df = self.df.loc[:, ['PMI', '非制造业PMI:商务活动', '综合PMI:产出指数']]
-        start_date = '2019-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_total_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_total_pmi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
     def demand_plot(self):
         pro_df = self.df.loc[:, ['PMI:新订单', 'PMI:新出口订单', 'PMI:积压订单']]
-        start_date = '2019-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_demand_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_demand_pmi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
     def produce_plot(self):
         pro_df = self.df.loc[:, ['PMI:新订单', 'PMI:生产']]
-        start_date = '2019-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_produce_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_produce_pmi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
     def procurement_plot(self):
         pro_df = self.df.loc[:, ['PMI:采购量', 'PMI:进口']]
-        start_date = '2019-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_procurement_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_procurement_pmi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
     def inventory_plot(self):
         pro_df = self.df.loc[:, ['PMI:产成品库存', 'PMI:原材料库存']]
-        start_date = '2019-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_inventory_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_inventory_pmi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
     def price_plot(self):
         pro_df = self.df.loc[:, ['PMI:购进价格', 'PMI:出厂价格']]
-        start_date = '2019-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_price_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_price_pmi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
 
@@ -126,20 +156,35 @@ class CPI_PPI:
 
     def total_plot(self):
         pro_df = self.df.loc[:, ['CPI:环比', 'PPI:全部工业品:环比']]
-        start_date = '2000-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_total_cpi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_total_cpi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def cpi_plot(self):
         pro_df = self.df.loc[:, ['CPI:环比', 'CPI:食品:环比', 'CPI:非食品:环比']]
-        start_date = '2000-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_cpi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_cpi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def ppi_plot(self):
         pro_df = self.df.loc[:, ['PPI:全部工业品:环比', 'PPI:生产资料:环比', 'PPI:生活资料:环比']]
-        start_date = '2000-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_ppi_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_ppi_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
 
@@ -155,10 +200,16 @@ class TRSCG:
         self.df = df
 
     def total_plot(self):
-        pro_df = self.df.loc[:, ['社会消费品零售总额:当月值', '社会消费品零售总额:当月值%']].reset_index()
+        pro_df = self.df.loc[:, ['社会消费品零售总额:当月值', '社会消费品零售总额:当月值%']]
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
-        start_date = '2000-01'
-        pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_total_sl_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_total_sl_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
+        pro_df = pro_df.reset_index()
         bars = alt.Chart(pro_df).mark_bar().encode(
             x='指标名称',
             y='社会消费品零售总额-当月值'
@@ -183,6 +234,13 @@ class TRSCG:
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:,
                  ['社会消费品零售总额:当月值', '社会消费品零售总额:除汽车以外的消费品零售额:当月值']]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_automobile_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_automobile_proportion_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df.columns = ['总额', '除汽车']
         pro_df = pro_df.div(pro_df['总额'], axis=0)
         pro_df['汽车'] = pro_df['总额'] - pro_df['除汽车']
@@ -194,6 +252,13 @@ class TRSCG:
         pro_df.columns = ['总额', '除汽车']
         pro_df['汽车'] = pro_df['总额'] - pro_df['除汽车']
         pro_df = pro_df.pct_change(10).loc[start_date:]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_automobile_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_automobile_increase_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def goods_food_proportion(self):
@@ -201,6 +266,13 @@ class TRSCG:
         pro_df = self.df.loc[start_date:, ['社会消费品零售总额:商品零售:当月值', '社会消费品零售总额:餐饮收入:当月值']]
         pro_df.columns = ['商品零售', '餐饮收入']
         pro_df = pro_df.div(pro_df.sum(axis=1), axis=0)
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_goods_food_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_goods_food_proportion_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.astype(float))
 
     def goods_food_increase(self):
@@ -208,6 +280,13 @@ class TRSCG:
         pro_df = self.df.loc[start_date:, ['社会消费品零售总额:当月值%', '社会消费品零售总额:商品零售:当月值%',
                                            '社会消费品零售总额:餐饮收入:当月值%']]
         pro_df.columns = ['总额', '商品零售', '餐饮收入']
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_goods_food_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_goods_food_increase_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def area_proportion(self):
@@ -215,6 +294,13 @@ class TRSCG:
         pro_df = self.df.loc[start_date:, ['社会消费品零售总额:城镇:当月值', '社会消费品零售总额:农村:当月值']]
         pro_df.columns = ['城镇', '农村']
         pro_df = pro_df.div(pro_df.sum(axis=1).replace(0, np.nan), axis=0)
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_area_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_area_proportion_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.astype(float))
 
     def area_increase(self):
@@ -222,6 +308,13 @@ class TRSCG:
         pro_df = self.df.loc[start_date:,
                  ['社会消费品零售总额:当月值%', '社会消费品零售总额:城镇:当月值%', '社会消费品零售总额:农村:当月值%']]
         pro_df.columns = ['总额', '城镇', '农村']
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_area_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_area_increase_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def online_proportion(self):
@@ -230,6 +323,13 @@ class TRSCG:
         pro_df.columns = ['总额', '网上零售']
         pro_df = pro_df.div(pro_df['总额'].replace(0, np.nan), axis=0)
         pro_df['网下零售'] = pro_df['总额'] - pro_df['网上零售']
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_online_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_online_proportion_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.iloc[:, 1:].astype(float))
 
     def online_increase(self):
@@ -238,6 +338,13 @@ class TRSCG:
         pro_df.columns = ['总额', '网上零售']
         pro_df['网下零售'] = pro_df['总额'] - pro_df['网上零售']
         pro_df = pro_df.pct_change(10).loc[start_date:]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_online_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_online_increase_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def limit_proportion(self):
@@ -246,6 +353,13 @@ class TRSCG:
         pro_df.columns = ['总额', '限额']
         pro_df = pro_df.div(pro_df['总额'].replace(0, np.nan), axis=0)
         pro_df['非限额'] = pro_df['总额'] - pro_df['限额']
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_limit_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_limit_proportion_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.iloc[:, 1:].astype(float))
 
     def limit_increase(self):
@@ -254,6 +368,13 @@ class TRSCG:
         pro_df.columns = ['总额', '限额']
         pro_df['非限额'] = pro_df['总额'] - pro_df['限额']
         pro_df = pro_df.pct_change(10).loc[start_date:]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_limit_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_limit_increase_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
 
@@ -482,7 +603,15 @@ class FinancingMoney:
 
     def financing_plot(self):
         start_date = '2000-01'
-        pro_df = self.df.loc[start_date:, ['社会融资增量:当月值', '社融增量:同比增速']].reset_index()
+        pro_df = self.df.loc[start_date:, ['社会融资增量:当月值', '社融增量:同比增速']]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_financing_plot_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_financing_plot_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
+        pro_df = pro_df.reset_index()
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         bars = alt.Chart(pro_df).mark_bar().encode(
             x='指标名称',
@@ -499,6 +628,13 @@ class FinancingMoney:
     def season_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, ['社会融资增量:当月值']]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 5,
+                                           key='start_season_plot_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_season_plot_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df['月份'] = [i[-2:] for i in pro_df.index]
         pro_df['年份'] = [i[:4] for i in pro_df.index]
         pro_df = pro_df.pivot(index=['月份'], columns=['年份'], values='社会融资增量:当月值')
@@ -508,6 +644,13 @@ class FinancingMoney:
     def financing_portion(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_financing_portion_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_financing_portion_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:新增人民币贷款:当月值', '社会融资增量:新增外币贷款(按人民币计):当月值',
                   '社会融资增量:新增委托贷款:当月值', '社会融资增量:新增信托贷款:当月值',
@@ -524,6 +667,13 @@ class FinancingMoney:
     def increment_loan(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_increment_loan_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_increment_loan_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['金融机构:新增人民币贷款:居民户:短期:当月值', '金融机构:新增人民币贷款:居民户:中长期:当月值',
                   '金融机构:新增人民币贷款:非金融性公司及其他部门:短期:当月值',
@@ -537,6 +687,13 @@ class FinancingMoney:
     def off_sheet(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_off_sheet_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_off_sheet_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:新增委托贷款:当月值', '社会融资增量:新增信托贷款:当月值', ]]
         pro_df.columns = ['新增委托贷款', '新增信托贷款']
@@ -546,6 +703,13 @@ class FinancingMoney:
     def direct_financing(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_direct_financing_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_direct_financing_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:企业债券融资:当月值', '社会融资增量:非金融企业境内股票融资:当月值']]
         pro_df.columns = ['企业债券融资', '企业股票融资']
@@ -555,6 +719,13 @@ class FinancingMoney:
     def financing_other(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_financing_other_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_financing_other_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:政府债券:当月值', '社会融资增量:贷款核销:当月值',
                   '社会融资增量:存款类金融机构资产支持证券:当月值']]
@@ -565,10 +736,11 @@ class FinancingMoney:
     def money_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
+        selected_start_date = c1.selectbox('开始日期', options=options, index=len(pro_df) - 24,
                                   key='start_money_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df)-1,
+        selected_end_date = c2.selectbox('结束日期', options=options, index=len(pro_df)-1,
                                   key='end_money_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         pro_df = pro_df.loc[:,
@@ -579,10 +751,11 @@ class FinancingMoney:
     def money_scissors(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
+        selected_start_date = c1.selectbox('开始日期', options=options, index=len(pro_df) - 24,
                                   key='start_money_scissors')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df)-1,
+        selected_end_date = c2.selectbox('结束日期', options=options, index=len(pro_df)-1,
                                   key='end_money_scissors')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         pro_df['M1-M2增速'] = pro_df['M1:同比'] - pro_df['M2:同比']
@@ -803,6 +976,13 @@ class Forex:
     def total_forex(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_total_forex_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_total_forex_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:, ['货币当局:国外资产:外汇', '货币当局:对其他存款性公司债权', '货币当局:储备货币']]
         pro_df['外汇债权合计'] = pro_df["货币当局:国外资产:外汇"] + pro_df["货币当局:对其他存款性公司债权"]
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
@@ -811,13 +991,27 @@ class Forex:
     def total_bank_exchange(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_total_bank_exchange_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_total_bank_exchange_date')
+        pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:, ['银行结售汇:差额:自身:当月值', '银行结售汇:差额:代客:当月值', '银行结售汇顺差:当月值']]
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         st.line_chart(pro_df.dropna().astype(float))
 
     def bank_spot_forex(self):
         start_date = '2000-01'
-        pro_df = self.df.loc[start_date:, ['银行远期结售汇:差额:当月值', '平均汇率:美元兑人民币']].reset_index()
+        pro_df = self.df.loc[start_date:, ['银行远期结售汇:差额:当月值', '平均汇率:美元兑人民币']]
+        options = pro_df.index.tolist()
+        c1, c2 = st.columns([1, 1])
+        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
+                                           key='start_bank_spot_forex_date')
+        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
+                                         key='end_bank_spot_forex_date')
+        pro_df = pro_df.loc[start_date:end_date, :].reset_index()
         pro_df['平均汇率:美元兑人民币（逆序）'] = pro_df['平均汇率:美元兑人民币'].pct_change(1) * 100 * (-1)
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         bars = alt.Chart(pro_df).mark_bar().encode(
@@ -835,6 +1029,7 @@ class Forex:
     def capital_current_account(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, :]
+
         pro_df['经常账户差额'] = pro_df['经常账户:差额:当季值']
         pro_df['资本金融账户差额'] = pro_df['资本和金融账户:差额:当季值'] - pro_df['金融账户:储备资产:储备资产:当季值']
         pro_df = pro_df.loc[:, ['经常账户差额', '资本金融账户差额']]
@@ -851,7 +1046,6 @@ class Forex:
         pro_df['国际收支差额'] = pro_df['经常账户差额'] + pro_df['资本金融账户差额']
         pro_df['平均汇率:美元兑人民币（逆序）'] = pro_df['平均汇率:美元兑人民币'].pct_change(1) * 100 * (-1)
         pro_df = pro_df.loc[:, ['指标名称', '国际收支差额', '平均汇率:美元兑人民币（逆序）']].dropna()
-        print(pro_df)
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         bars = alt.Chart(pro_df).mark_bar().encode(
             x='指标名称',
@@ -1176,8 +1370,8 @@ def TRSCG_analysis():
     st.title('社零分年份月度变化')
     st.write('单位：亿元@月')
     trscg.season_plot()
-    st.title('汽车非汽车消费金额')
-    st.write('单位：亿元@月')
+    st.title('汽车非汽车消费金额占比')
+    st.write('单位：百分比@月')
     trscg.automobile_proportion()
     st.title('汽车非汽车消费增速')
     st.write('单位：百分比@月')

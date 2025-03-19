@@ -148,6 +148,7 @@ exit  # 容器内退出
 - [echarts图表](https://echarts.streamlit.app/)
 
 ## 基于项目的创作
+- [25年2月回顾：消费刺激仍需加码，资本账户存在挑战 ](https://mp.weixin.qq.com/s/SnbRo7FaWV8iiC_JN3dzFw)
 - [24年11月回顾：货币政策转向明显，国债利率跌破警线 ](https://www.bilibili.com/video/BV1CskBYbEaq/)
 - [24年10月回顾：川普胜选比特币飞涨，地产企稳十万亿启动 ](https://www.bilibili.com/video/BV14DSwYnE9N/)
 - [24年9月回顾：炒股炒坏剪刀差？外商投资下滑加快](https://www.bilibili.com/video/BV1YxCoYeEqJ/)
@@ -158,6 +159,8 @@ exit  # 容器内退出
 - [用Streamlit搭建中国宏观经济数据看板](https://www.bilibili.com/video/BV1fJ4m1u7u9/)
 
 ## 更新记录
+- 2025/03/20：月度更新 
+
 - 2024/12/19：月度更新 
 
 - 2024/11/19:

@@ -6,7 +6,7 @@ import pandas as pd
 import altair as alt
 import streamlit as st
 from streamlit_echarts import st_echarts
-from tool import preprocess_choice_data, get_choice_unit_arr
+from tool import preprocess_choice_data, get_choice_unit_arr, init_global_month, get_global_month, set_global_month, find_closest_date, get_date_index
 
 
 # 数据的列名不要有太多的:，不然会报错： If you are trying to use a column name that contains a colon, prefix it with a backslash; for example "column\:name" instead of "column:name".
@@ -83,10 +83,12 @@ class PMI:
         pro_df = self.df.loc[:, ['PMI', '非制造业PMI:商务活动', '综合PMI:产出指数']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_total_pmi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_total_pmi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_total_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_total_pmi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
@@ -94,10 +96,12 @@ class PMI:
         pro_df = self.df.loc[:, ['PMI:新订单', 'PMI:新出口订单', 'PMI:积压订单']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_demand_pmi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_demand_pmi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_demand_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_demand_pmi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
@@ -105,10 +109,12 @@ class PMI:
         pro_df = self.df.loc[:, ['PMI:新订单', 'PMI:生产']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_produce_pmi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_produce_pmi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_produce_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_produce_pmi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
@@ -116,10 +122,12 @@ class PMI:
         pro_df = self.df.loc[:, ['PMI:采购量', 'PMI:进口']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_procurement_pmi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_procurement_pmi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_procurement_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_procurement_pmi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
@@ -127,10 +135,12 @@ class PMI:
         pro_df = self.df.loc[:, ['PMI:产成品库存', 'PMI:原材料库存']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_inventory_pmi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_inventory_pmi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_inventory_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_inventory_pmi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
@@ -138,10 +148,12 @@ class PMI:
         pro_df = self.df.loc[:, ['PMI:购进价格', 'PMI:出厂价格']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_price_pmi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_price_pmi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_price_pmi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_price_pmi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df)
 
@@ -158,10 +170,12 @@ class CPI_PPI:
         pro_df = self.df.loc[:, ['CPI:环比', 'PPI:全部工业品:环比']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_total_cpi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_total_cpi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_total_cpi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_total_cpi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -169,10 +183,12 @@ class CPI_PPI:
         pro_df = self.df.loc[:, ['CPI:环比', 'CPI:食品:环比', 'CPI:非食品:环比']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_cpi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_cpi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_cpi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_cpi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -180,10 +196,12 @@ class CPI_PPI:
         pro_df = self.df.loc[:, ['PPI:全部工业品:环比', 'PPI:生产资料:环比', 'PPI:生活资料:环比']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_ppi_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_ppi_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_ppi_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_ppi_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -204,10 +222,12 @@ class TRSCG:
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_total_sl_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_total_sl_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_total_sl_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_total_sl_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.reset_index()
         bars = alt.Chart(pro_df).mark_bar().encode(
@@ -236,10 +256,12 @@ class TRSCG:
                  ['社会消费品零售总额:当月值', '社会消费品零售总额:除汽车以外的消费品零售额:当月值']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_automobile_proportion_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_automobile_proportion_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_automobile_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_automobile_proportion_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df.columns = ['总额', '除汽车']
         pro_df = pro_df.div(pro_df['总额'], axis=0)
@@ -254,10 +276,12 @@ class TRSCG:
         pro_df = pro_df.pct_change(10).loc[start_date:]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_automobile_increase_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_automobile_increase_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_automobile_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_automobile_increase_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -268,10 +292,12 @@ class TRSCG:
         pro_df = pro_df.div(pro_df.sum(axis=1), axis=0)
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_goods_food_proportion_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_goods_food_proportion_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_goods_food_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_goods_food_proportion_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.astype(float))
 
@@ -282,10 +308,12 @@ class TRSCG:
         pro_df.columns = ['总额', '商品零售', '餐饮收入']
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_goods_food_increase_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_goods_food_increase_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_goods_food_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_goods_food_increase_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -296,10 +324,12 @@ class TRSCG:
         pro_df = pro_df.div(pro_df.sum(axis=1).replace(0, np.nan), axis=0)
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_area_proportion_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_area_proportion_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_area_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_area_proportion_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.astype(float))
 
@@ -310,10 +340,12 @@ class TRSCG:
         pro_df.columns = ['总额', '城镇', '农村']
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_area_increase_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_area_increase_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_area_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_area_increase_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -325,10 +357,12 @@ class TRSCG:
         pro_df['网下零售'] = pro_df['总额'] - pro_df['网上零售']
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_online_proportion_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_online_proportion_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_online_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_online_proportion_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.iloc[:, 1:].astype(float))
 
@@ -340,10 +374,12 @@ class TRSCG:
         pro_df = pro_df.pct_change(10).loc[start_date:]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_online_increase_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_online_increase_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_online_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_online_increase_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -355,10 +391,12 @@ class TRSCG:
         pro_df['非限额'] = pro_df['总额'] - pro_df['限额']
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_limit_proportion_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_limit_proportion_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_limit_proportion_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_limit_proportion_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.bar_chart(pro_df.iloc[:, 1:].astype(float))
 
@@ -370,10 +408,12 @@ class TRSCG:
         pro_df = pro_df.pct_change(10).loc[start_date:]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_limit_increase_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_limit_increase_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_limit_increase_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_limit_increase_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -606,10 +646,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, ['社会融资增量:当月值', '社融增量:同比增速']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_financing_plot_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_financing_plot_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_financing_plot_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_financing_plot_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.reset_index()
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
@@ -630,10 +672,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, ['社会融资增量:当月值']]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 5,
-                                           key='start_season_plot_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_season_plot_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 5, is_end_date=False),
+                                   key='start_season_plot_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_season_plot_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df['月份'] = [i[-2:] for i in pro_df.index]
         pro_df['年份'] = [i[:4] for i in pro_df.index]
@@ -646,10 +690,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_financing_portion_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_financing_portion_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_financing_portion_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_financing_portion_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:新增人民币贷款:当月值', '社会融资增量:新增外币贷款(按人民币计):当月值',
@@ -669,10 +715,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_increment_loan_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_increment_loan_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_increment_loan_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_increment_loan_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['金融机构:新增人民币贷款:居民户:短期:当月值', '金融机构:新增人民币贷款:居民户:中长期:当月值',
@@ -689,10 +737,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_off_sheet_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_off_sheet_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_off_sheet_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_off_sheet_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:新增委托贷款:当月值', '社会融资增量:新增信托贷款:当月值', ]]
@@ -705,10 +755,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_direct_financing_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_direct_financing_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_direct_financing_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_direct_financing_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:企业债券融资:当月值', '社会融资增量:非金融企业境内股票融资:当月值']]
@@ -721,10 +773,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 12 * 2,
-                                           key='start_financing_other_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_financing_other_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 12 * 2, is_end_date=False),
+                                   key='start_financing_other_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_financing_other_date')
         pro_df = pro_df.loc[start_date:end_date, :]
         pro_df = pro_df.loc[:,
                  ['社会融资增量:政府债券:当月值', '社会融资增量:贷款核销:当月值',
@@ -738,10 +792,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=options, index=len(pro_df) - 24,
-                                  key='start_money_plot')
-        selected_end_date = c2.selectbox('结束日期', options=options, index=len(pro_df)-1,
-                                  key='end_money_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_money_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_money_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         pro_df = pro_df.loc[:,
                  ['M0:同比', 'M1:同比', 'M2:同比']]
@@ -753,10 +809,12 @@ class FinancingMoney:
         pro_df = self.df.loc[start_date:, :]
         options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=options, index=len(pro_df) - 24,
-                                  key='start_money_scissors')
-        selected_end_date = c2.selectbox('结束日期', options=options, index=len(pro_df)-1,
-                                  key='end_money_scissors')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_money_scissors')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_money_scissors')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         pro_df['M1-M2增速'] = pro_df['M1:同比'] - pro_df['M2:同比']
         pro_df['社融-M2增速'] = pro_df['社融存量:同比增速'] * 100 - pro_df['M2:同比']
@@ -887,11 +945,14 @@ class Fiscal:
     def exchange_fee(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, ['交易印花税:当月值', '股票成交金额:当月值']]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                  key='start_exchange_fee')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df)-1,
-                                  key='end_exchange_fee')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_exchange_fee')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_exchange_fee')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :].reset_index().dropna()
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         bars = alt.Chart(pro_df).mark_bar().encode(
@@ -1234,8 +1295,10 @@ class SeventyCityIndex:
         default_city_list = ['上海', '北京', '深圳', '重庆', '广州', '成都', '杭州', '武汉', '南京']
         selected_city_list = st.multiselect('可选择多个城市', options=total_city_list, default=default_city_list)
         house_type = c2.selectbox('指数类型', options=('二手房', '新房'), index=1)
-        start_date = c3.selectbox('开始日期', options=new_house_df.index.tolist(), index=len(new_house_df) - 24,
-                                  key='multi_city_plot')
+        options = new_house_df.index.tolist()
+        start_date = c3.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(new_house_df) - 24, is_end_date=False),
+                                   key='multi_city_plot')
         if selected_city_list and house_type:  # 如果都选择了
             chart_df = secondhand_df if house_type == '二手房' else new_house_df
             data_df = chart_df.loc[start_date:, selected_city_list]
@@ -1279,8 +1342,10 @@ class SeventyCityIndex:
         # 不包括：'苏州', '东莞', '佛山' 因为一方面不是省会城市或计划单列市，另一方面距离上海、深圳这两大一线城市较近。从统计学角度来讲，样本不能过于集中在同一个地区，所以未能入选
         new_one_line = ['成都', '重庆', '杭州', '西安', '武汉', '郑州', '南京', '天津', '长沙', '宁波', '合肥', '青岛']
         other_line = list(set(total_city_list) - set(one_line) - set(new_one_line))
-        start_date = st.selectbox('开始日期', options=new_house_df.index.tolist(), index=len(new_house_df) - 24,
-                                  key='class_city_plot')
+        options = new_house_df.index.tolist()
+        start_date = st.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(new_house_df) - 24, is_end_date=False),
+                                   key='class_city_plot')
         data_df = pd.DataFrame()
         for i, j in zip(['一线', '新一线', '其他'], [one_line, new_one_line, other_line]):
             for k, tmp_df in zip(['新房', '二手房'], [new_house_df, secondhand_df]):
@@ -1606,6 +1671,48 @@ if __name__ == "__main__":
     st.sidebar.markdown("# 中国宏观经济看板")
     st.sidebar.markdown("作者：AFAN（微信：afan-life）")
     st.sidebar.markdown("项目介绍：[macropage](https://github.com/AFAN-LIFE/macropage)")
+    
+    # 初始化全局月份状态
+    init_global_month()
+    
+    # 全局月份选择器
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 全局月份选择")
+    
+    # 生成可用的月份列表（最近10年）
+    current_year = datetime.datetime.now().year
+    months = []
+    for year in range(current_year - 10, current_year + 1):
+        for month in range(1, 13):
+            months.append(f"{year}-{month:02d}")
+    months.reverse()  # 从最近的月份开始
+    
+    # 添加"不使用全局月份"选项
+    month_options = ["不使用全局月份"] + months
+    
+    # 获取当前选中的月份
+    current_global_month = get_global_month()
+    if current_global_month:
+        default_index = month_options.index(current_global_month) if current_global_month in month_options else 0
+    else:
+        default_index = 0
+    
+    selected_month = st.sidebar.selectbox(
+        "选择全局月份（切换看板时默认使用）",
+        options=month_options,
+        index=default_index,
+        key='global_month_selector'
+    )
+    
+    # 更新全局月份状态
+    if selected_month == "不使用全局月份":
+        st.session_state.global_month = None
+        st.session_state.global_month_set = False
+    else:
+        set_global_month(selected_month)
+    
+    st.sidebar.markdown("---")
+    
     selection = st.sidebar.radio("当前支持的分析图表：",
                                  ["股票市场", "债券利率", "GDP分析", "社会消费品零售总额分析", "进出口分析",
                                   "固定资产投资分析", "CPI和PPI分析",

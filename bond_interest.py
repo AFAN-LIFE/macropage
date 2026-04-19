@@ -2,6 +2,7 @@ import time
 import altair as alt
 import pandas as pd
 import streamlit as st
+from tool import get_date_index
 
 
 class BondInterest:
@@ -83,10 +84,12 @@ class BondInterest:
         options = sorted(options)
         show_term_list = st.multiselect('请选择要展示的时期（可多个）', options=term_order, default=term_order)
         c1, c2 = st.columns([1, 1])
-        start_date = c1.selectbox('开始日期', options=options, index=len(options) - 30 * 2,
-                                           key='start_term_date')
-        end_date = c2.selectbox('结束日期', options=options, index=len(options) - 1,
-                                         key='end_term_date')
+        start_date = c1.selectbox('开始日期', options=options, 
+                                   index=get_date_index(options, len(options) - 30 * 2, is_end_date=False),
+                                   key='start_term_date')
+        end_date = c2.selectbox('结束日期', options=options, 
+                                 index=get_date_index(options, len(options) - 1, is_end_date=True),
+                                 key='end_term_date')
         selected_df = yield_df.loc[str(start_date):str(end_date), show_term_list]
         st.line_chart(selected_df)
         st.write(selected_df)

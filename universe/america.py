@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 import streamlit as st
 import matplotlib.pyplot as plt
-from tool import preprocess_choice_data
+from tool import preprocess_choice_data, get_date_index
 
 
 class AmericaIndex:
@@ -63,11 +63,14 @@ class AmericaBasic:
     def employment_number_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, ['美国:非农就业人数:季调', '美国:新增非农就业人数:当月值:季调']]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_employment_number_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_employment_number_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_employment_number_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_employment_number_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :].reset_index()
         pro_df.columns = [i.replace(':', '-') for i in pro_df.columns]
         bars = alt.Chart(pro_df).mark_bar().encode(
@@ -85,11 +88,14 @@ class AmericaBasic:
     def unemployment_ratio_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, ['美国:失业率:季调', '美国:劳动参与率']]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_unemployment_ratio_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_unemployment_ratio_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_unemployment_ratio_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_unemployment_ratio_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :].reset_index()
         # 指定开始结束时间，否则会从0开始展示，效果不好
         join_min, join_max = int(pro_df['美国:劳动参与率'].min()), int(pro_df['美国:劳动参与率'].max() + 1)
@@ -111,33 +117,42 @@ class AmericaBasic:
         pro_df = self.df.loc[:, ['美国:CPI:非季调:当月同比', '美国:PPI:产成品:当月同比']]
         start_date = '2000-01'
         pro_df = pro_df.loc[start_date:, :]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_cpi_ppi_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_cpi_ppi_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_cpi_ppi_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_cpi_ppi_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def pmi_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, ['美国:供应管理协会(ISM):PMI:季调', '美国:供应管理协会(ISM):服务业PMI:季调']]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_pmi_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_pmi_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_pmi_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_pmi_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         st.line_chart(pro_df.astype(float))
 
     def m1_m2_ratio_plot(self):
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:, ['美国:M1:季调:当月同比', '美国:M2:季调:当月同比']]
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_m1_m2_ratio_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_m1_m2_ratio_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_m1_m2_ratio_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_m1_m2_ratio_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         st.line_chart(pro_df.astype(float))
 
@@ -145,11 +160,14 @@ class AmericaBasic:
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:,
                  ['美国:出口金额:季调', '美国:进口金额:季调', '美国:贸易差额:季调']].astype(float)
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_export_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_export_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_export_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_export_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         st.line_chart(pro_df)
 
@@ -157,11 +175,14 @@ class AmericaBasic:
         start_date = '2000-01'
         pro_df = self.df.loc[start_date:,
                  ['美国:政府财政收入', '美国:政府财政支出', '美国:政府财政赤字(盈余为负)']].astype(float)
+        options = pro_df.index.tolist()
         c1, c2 = st.columns([1, 1])
-        selected_start_date = c1.selectbox('开始日期', options=pro_df.index.tolist(), index=len(pro_df) - 24,
-                                           key='start_fiscal_plot')
-        selected_end_date = c2.selectbox('结束日期', options=pro_df.index.tolist(), index=len(pro_df) - 1,
-                                         key='end_fiscal_plot')
+        selected_start_date = c1.selectbox('开始日期', options=options, 
+                                            index=get_date_index(options, len(pro_df) - 24, is_end_date=False),
+                                            key='start_fiscal_plot')
+        selected_end_date = c2.selectbox('结束日期', options=options, 
+                                          index=get_date_index(options, len(pro_df) - 1, is_end_date=True),
+                                          key='end_fiscal_plot')
         pro_df = pro_df.loc[selected_start_date:selected_end_date, :]
         st.line_chart(pro_df)
 

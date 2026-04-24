@@ -7,6 +7,12 @@ import altair as alt
 import streamlit as st
 from streamlit_echarts import st_echarts
 from tool import preprocess_choice_data, get_choice_unit_arr
+from enhanced_tool import (
+    get_favorites_manager, 
+    get_export_manager, 
+    reset_export_manager,
+    render_export_buttons
+)
 
 
 # 数据的列名不要有太多的:，不然会报错： If you are trying to use a column name that contains a colon, prefix it with a backslash; for example "column\:name" instead of "column:name".
@@ -1602,21 +1608,91 @@ def SeventyCityIndex_analysis():
     seventy_city_index.class_city_plot()
 
 
-if __name__ == "__main__":
-    st.sidebar.markdown("# 中国宏观经济看板")
-    st.sidebar.markdown("作者：AFAN（微信：afan-life）")
-    st.sidebar.markdown("项目介绍：[macropage](https://github.com/AFAN-LIFE/macropage)")
-    selection = st.sidebar.radio("当前支持的分析图表：",
-                                 ["股票市场", "债券利率", "GDP分析", "社会消费品零售总额分析", "进出口分析",
-                                  "固定资产投资分析", "CPI和PPI分析",
-                                  "PMI分析", "社融和货币供应分析", "财政数据分析", "人口就业分析", "外汇分析",
-                                  "房地产投资分析", "70城房价指数", "美国宏观"
-                                  # , "开发测试"
-                                  ])
+DASHBOARD_OPTIONS = {
+        "股票市场": "股票市场分析",
+        "债券利率": "债券利率分析",
+        "GDP分析": "GDP分析",
+        "社会消费品零售总额分析": "社会消费品零售总额分析",
+        "进出口分析": "进出口分析",
+        "固定资产投资分析": "固定资产投资分析",
+        "CPI和PPI分析": "CPI和PPI分析",
+        "PMI分析": "PMI分析",
+        "社融和货币供应分析": "社融和货币供应分析",
+        "财政数据分析": "财政数据分析",
+        "人口就业分析": "人口就业分析",
+        "外汇分析": "外汇分析",
+        "房地产投资分析": "房地产投资分析",
+        "70城房价指数": "70城房价指数",
+        "美国宏观": "美国宏观分析"
+    }
+
+def collect_and_export_data(selection):
+    collector = get_data_collector()
+    
+    if selection == "股票市场":
+        from stock import StockMarket
+        stock_market = StockMarket()
+        collector.collect_data("股票基础数据", stock_market.stock_basic_df, description="股票基础信息数据")
+        collector.collect_data("股票指数数据", stock_market.stock_index_df, description="股票指数历史数据")
+    elif selection == "债券利率":
+        from bond_interest import BondInterest
+        bond = BondInterest()
+        collector.collect_data("国债收益率数据", bond.yield_df, description="国债收益率曲线数据")
+    elif selection == "GDP分析":
+        gdp = GDP()
+        collector.collect_data("GDP数据", gdp.df, description="GDP原始数据")
+    elif selection == "PMI分析":
+        pmi = PMI()
+        collector.collect_data("PMI数据", pmi.df, description="PMI原始数据")
+    elif selection == "CPI和PPI分析":
+        cpi_ppi = CPI_PPI()
+        collector.collect_data("CPI和PPI数据", cpi_ppi.df, description="CPI和PPI原始数据")
+    elif selection == "社会消费品零售总额分析":
+        trscg = TRSCG()
+        collector.collect_data("社零数据", trscg.df, description="社会消费品零售总额原始数据")
+    elif selection == "进出口分析":
+        export_basic = ExportBasic()
+        export_country = ExportCountry()
+        collector.collect_data("进出口基本数据", export_basic.df, description="进出口基本数据")
+        collector.collect_data("出口区域数据", export_country.output_df, description="出口区域数据")
+        collector.collect_data("进口区域数据", export_country.input_df, description="进口区域数据")
+    elif selection == "固定资产投资分析":
+        fixed_asset = FixedAssetInvest()
+        collector.collect_data("固定资产投资数据", fixed_asset.df, description="固定资产投资原始数据")
+    elif selection == "社融和货币供应分析":
+        financing_money = FinancingMoney()
+        collector.collect_data("社融和货币数据", financing_money.df, description="社融和货币供应原始数据")
+    elif selection == "财政数据分析":
+        fiscal = Fiscal()
+        collector.collect_data("财政数据", fiscal.df, description="财政原始数据")
+    elif selection == "人口就业分析":
+        population = PopulationEnployment()
+        collector.collect_data("人口就业数据", population.df, description="人口就业原始数据")
+    elif selection == "外汇分析":
+        forex = Forex()
+        collector.collect_data("外汇数据", forex.df, description="外汇原始数据")
+    elif selection == "房地产投资分析":
+        real_estate = RealEstateInvest()
+        collector.collect_data("房地产投资数据", real_estate.df, description="房地产投资原始数据")
+    elif selection == "70城房价指数":
+        seventy_city = SeventyCityIndex()
+        collector.collect_data("70城房价指数", seventy_city.df, description="70城房价指数原始数据")
+        collector.collect_data("新房价格指数", seventy_city.new_house_df, description="新房价格指数")
+        collector.collect_data("二手房价格指数", seventy_city.secondhand_df, description="二手房价格指数")
+    elif selection == "美国宏观":
+        from universe.america import AmericaIndex, AmericaBasic
+        america_index = AmericaIndex()
+        america_basic = AmericaBasic()
+        collector.collect_data("全球指数数据", america_index.df, description="全球股票指数数据")
+        collector.collect_data("美国宏观数据", america_basic.df, description="美国宏观经济数据")
+
+def render_dashboard(selection):
+    collect_and_export_data(selection)
+    
     if selection == "股票市场":
         from stock import stock_market_analysis
         stock_market_analysis()
-    if selection == "债券利率":
+    elif selection == "债券利率":
         from bond_interest import bond_interest_analysis
         bond_interest_analysis()
     elif selection == "GDP分析":
@@ -1647,6 +1723,205 @@ if __name__ == "__main__":
         from universe.america import AmericaBasic_analysis
         AmericaBasic_analysis()
 
-    # elif selection == "开发测试":
-    #     from test import test_func
-    #     test_func()
+if __name__ == "__main__":
+    st.sidebar.markdown("# 中国宏观经济看板")
+    st.sidebar.markdown("作者：AFAN（微信：afan-life）")
+    st.sidebar.markdown("项目介绍：[macropage](https://github.com/AFAN-LIFE/macropage)")
+    
+    favorites_manager = get_favorites_manager()
+    favorites = favorites_manager.get_favorites()
+    
+    valid_favorites = [f for f in favorites if f in DASHBOARD_OPTIONS]
+    other_options = [opt for opt in DASHBOARD_OPTIONS.keys() if opt not in valid_favorites]
+    
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📁 我的常用看板")
+    
+    if valid_favorites:
+        favorite_selection = st.sidebar.multiselect(
+            "从常用看板选择（可多选）",
+            options=valid_favorites,
+            default=[],
+            key="favorite_multiselect"
+        )
+    else:
+        st.sidebar.info("暂无收藏的看板，可从下方列表中收藏")
+        favorite_selection = []
+    
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📊 全部看板")
+    
+    all_selection = st.sidebar.multiselect(
+        "从全部看板选择（可多选，支持叠加显示）",
+        options=list(DASHBOARD_OPTIONS.keys()),
+        default=[],
+        key="all_multiselect"
+    )
+    
+    final_selections = list(dict.fromkeys(favorite_selection + all_selection))
+    
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### ⭐ 管理收藏")
+    
+    favorite_manage = st.sidebar.selectbox(
+        "选择看板进行收藏管理",
+        options=["请选择..."] + list(DASHBOARD_OPTIONS.keys()),
+        key="favorite_manage_select"
+    )
+    
+    if favorite_manage != "请选择...":
+        col1, col2 = st.sidebar.columns(2)
+        with col1:
+            if st.button("➕ 添加收藏", use_container_width=True):
+                if favorites_manager.add_favorite(favorite_manage):
+                    st.sidebar.success(f"已收藏: {favorite_manage}")
+                    time.sleep(0.5)
+                    st.rerun()
+                else:
+                    st.sidebar.warning("该看板已收藏")
+        with col2:
+            if st.button("➖ 取消收藏", use_container_width=True):
+                if favorites_manager.remove_favorite(favorite_manage):
+                    st.sidebar.success(f"已取消收藏: {favorite_manage}")
+                    time.sleep(0.5)
+                    st.rerun()
+                else:
+                    st.sidebar.warning("该看板未收藏")
+    
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📤 导出当前视图")
+    render_export_buttons()
+    
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### ⚙️ 显示设置")
+    
+    st.sidebar.markdown("### 🔄 对比视图管理")
+    
+    if 'comparison_views' not in st.session_state:
+        st.session_state.comparison_views = {}
+    if 'active_view_index' not in st.session_state:
+        st.session_state.active_view_index = {}
+    
+    if final_selections:
+        for selection in final_selections:
+            if selection not in st.session_state.comparison_views:
+                st.session_state.comparison_views[selection] = {
+                    'count': 1,
+                    'views': ['主要视图']
+                }
+            if selection not in st.session_state.active_view_index:
+                st.session_state.active_view_index[selection] = 0
+        
+        for selection in final_selections:
+            view_info = st.session_state.comparison_views.get(selection, {'count': 1, 'views': ['主要视图']})
+            active_idx = st.session_state.active_view_index.get(selection, 0)
+            
+            st.markdown(f"# 📊 {selection}")
+            
+            col_info, col_add, col_remove = st.columns([3, 1, 1])
+            with col_info:
+                if view_info['count'] > 1:
+                    st.info(f"💡 当前共有 {view_info['count']} 个视图，可切换查看不同时间范围的对比")
+                else:
+                    st.info("💡 点击下方按钮可添加对比视图，用于不同时间范围的对比分析")
+            
+            with col_add:
+                if st.button(f"➕ 添加对比", key=f"add_compare_{selection}", use_container_width=True):
+                    view_info['count'] += 1
+                    view_info['views'].append(f"对比视图 {view_info['count']}")
+                    st.session_state.comparison_views[selection] = view_info
+                    st.rerun()
+            
+            with col_remove:
+                if view_info['count'] > 1 and st.button(f"➖ 删除对比", key=f"remove_compare_{selection}", use_container_width=True):
+                    if view_info['views']:
+                        removed_view = view_info['views'].pop()
+                        view_info['count'] = len(view_info['views'])
+                        st.session_state.comparison_views[selection] = view_info
+                        if active_idx >= view_info['count']:
+                            st.session_state.active_view_index[selection] = view_info['count'] - 1
+                        st.rerun()
+            
+            if view_info['count'] > 1:
+                st.markdown("**切换视图查看对比：**")
+                cols = st.columns(view_info['count'])
+                for idx, (col, view_name) in enumerate(zip(cols, view_info['views'])):
+                    with col:
+                        btn_type = "primary" if idx == active_idx else "secondary"
+                        if st.button(view_name, key=f"view_{selection}_{idx}", use_container_width=True, type=btn_type):
+                            st.session_state.active_view_index[selection] = idx
+                            st.rerun()
+                
+                current_view_name = view_info['views'][active_idx]
+                st.markdown(f"**当前视图：{current_view_name}**")
+                if active_idx > 0:
+                    st.markdown(f"<div style='background-color: #f0f2f6; padding: 10px; border-radius: 5px; margin-bottom: 15px;'>💡 提示：这是对比视图，你可以选择与主要视图不同的时间范围进行对比分析</div>", unsafe_allow_html=True)
+                st.markdown("---")
+            else:
+                st.markdown("---")
+            
+            if 'current_dashboard' not in st.session_state or st.session_state.current_dashboard != selection:
+                st.session_state.current_dashboard = selection
+                reset_export_manager()
+            
+            export_manager = get_export_manager()
+            export_manager.add_filter_condition(f"当前看板 - {selection}", f"{view_info['count']} 个视图")
+            export_manager.add_filter_condition(f"{selection} - 当前视图", view_info['views'][active_idx])
+            
+            render_dashboard(selection)
+            
+            if selection != final_selections[-1]:
+                st.markdown("---")
+                st.markdown(f"<div style='text-align: center; color: gray; padding: 10px;'>⬇️ 下一个看板 ⬇️</div>", unsafe_allow_html=True)
+                st.markdown("---")
+    else:
+        st.markdown("# 👋 欢迎使用中国宏观经济看板")
+        st.markdown("---")
+        st.markdown("""
+        ## 📋 使用说明
+        
+        请从左侧边栏选择要查看的看板，支持以下功能：
+        
+        ### 1. 收藏看板 ⭐
+        - 在左侧"管理收藏"区域选择看板
+        - 点击"添加收藏"将其加入"我的常用看板"
+        - 收藏的看板会显示在最上方，方便快速访问
+        
+        ### 2. 多选叠加显示 📊
+        - 支持从"我的常用看板"或"全部看板"中多选
+        - 选中的看板将按选择顺序在页面中叠加显示
+        - 无需来回切换，一次查看多个相关看板
+        
+        ### 3. 对比模式 🔄
+        - 勾选"启用全局对比模式"
+        - 每个看板将并排显示两个独立视图
+        - 可在两个视图中分别选择不同的时间范围进行对比分析
+        
+        ### 4. 导出功能 📤
+        - 点击"导出Excel"或"导出JSON"
+        - 导出当前筛选条件下的数据
+        - 导出文件包含当前视图的筛选条件信息
+        """)
+        
+        st.markdown("---")
+        st.markdown("### 🎯 快速开始")
+        st.info("👈 请从左侧边栏选择一个或多个看板开始分析")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("#### 📈 经济增长")
+            st.markdown("- GDP分析")
+            st.markdown("- 社会消费品零售总额分析")
+            st.markdown("- 固定资产投资分析")
+        
+        with col2:
+            st.markdown("#### 💹 价格指数")
+            st.markdown("- CPI和PPI分析")
+            st.markdown("- PMI分析")
+            st.markdown("- 70城房价指数")
+        
+        with col3:
+            st.markdown("#### 💰 金融市场")
+            st.markdown("- 股票市场")
+            st.markdown("- 债券利率")
+            st.markdown("- 社融和货币供应分析")

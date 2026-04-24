@@ -5,6 +5,41 @@ import pandas as pd
 import streamlit as st
 from io import BytesIO
 from functools import wraps
+import re
+
+
+class KeyPrefixManager:
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._prefix_stack = []
+            cls._instance._original_st = None
+        return cls._instance
+    
+    def push_prefix(self, prefix):
+        self._prefix_stack.append(prefix)
+    
+    def pop_prefix(self):
+        if self._prefix_stack:
+            return self._prefix_stack.pop()
+        return None
+    
+    def get_current_prefix(self):
+        if self._prefix_stack:
+            return self._prefix_stack[-1]
+        return None
+    
+    def apply_prefix_to_key(self, key):
+        prefix = self.get_current_prefix()
+        if prefix and key:
+            return f"{prefix}_{key}"
+        return key
+
+
+def get_key_prefix_manager():
+    return KeyPrefixManager()
 
 
 class FavoritesManager:

@@ -1626,7 +1626,69 @@ DASHBOARD_OPTIONS = {
         "美国宏观": "美国宏观分析"
     }
 
+def collect_and_export_data(selection):
+    collector = get_data_collector()
+    
+    if selection == "股票市场":
+        from stock import StockMarket
+        stock_market = StockMarket()
+        collector.collect_data("股票基础数据", stock_market.stock_basic_df, description="股票基础信息数据")
+        collector.collect_data("股票指数数据", stock_market.stock_index_df, description="股票指数历史数据")
+    elif selection == "债券利率":
+        from bond_interest import BondInterest
+        bond = BondInterest()
+        collector.collect_data("国债收益率数据", bond.yield_df, description="国债收益率曲线数据")
+    elif selection == "GDP分析":
+        gdp = GDP()
+        collector.collect_data("GDP数据", gdp.df, description="GDP原始数据")
+    elif selection == "PMI分析":
+        pmi = PMI()
+        collector.collect_data("PMI数据", pmi.df, description="PMI原始数据")
+    elif selection == "CPI和PPI分析":
+        cpi_ppi = CPI_PPI()
+        collector.collect_data("CPI和PPI数据", cpi_ppi.df, description="CPI和PPI原始数据")
+    elif selection == "社会消费品零售总额分析":
+        trscg = TRSCG()
+        collector.collect_data("社零数据", trscg.df, description="社会消费品零售总额原始数据")
+    elif selection == "进出口分析":
+        export_basic = ExportBasic()
+        export_country = ExportCountry()
+        collector.collect_data("进出口基本数据", export_basic.df, description="进出口基本数据")
+        collector.collect_data("出口区域数据", export_country.output_df, description="出口区域数据")
+        collector.collect_data("进口区域数据", export_country.input_df, description="进口区域数据")
+    elif selection == "固定资产投资分析":
+        fixed_asset = FixedAssetInvest()
+        collector.collect_data("固定资产投资数据", fixed_asset.df, description="固定资产投资原始数据")
+    elif selection == "社融和货币供应分析":
+        financing_money = FinancingMoney()
+        collector.collect_data("社融和货币数据", financing_money.df, description="社融和货币供应原始数据")
+    elif selection == "财政数据分析":
+        fiscal = Fiscal()
+        collector.collect_data("财政数据", fiscal.df, description="财政原始数据")
+    elif selection == "人口就业分析":
+        population = PopulationEnployment()
+        collector.collect_data("人口就业数据", population.df, description="人口就业原始数据")
+    elif selection == "外汇分析":
+        forex = Forex()
+        collector.collect_data("外汇数据", forex.df, description="外汇原始数据")
+    elif selection == "房地产投资分析":
+        real_estate = RealEstateInvest()
+        collector.collect_data("房地产投资数据", real_estate.df, description="房地产投资原始数据")
+    elif selection == "70城房价指数":
+        seventy_city = SeventyCityIndex()
+        collector.collect_data("70城房价指数", seventy_city.df, description="70城房价指数原始数据")
+        collector.collect_data("新房价格指数", seventy_city.new_house_df, description="新房价格指数")
+        collector.collect_data("二手房价格指数", seventy_city.secondhand_df, description="二手房价格指数")
+    elif selection == "美国宏观":
+        from universe.america import AmericaIndex, AmericaBasic
+        america_index = AmericaIndex()
+        america_basic = AmericaBasic()
+        collector.collect_data("全球指数数据", america_index.df, description="全球股票指数数据")
+        collector.collect_data("美国宏观数据", america_basic.df, description="美国宏观经济数据")
+
 def render_dashboard(selection):
+    collect_and_export_data(selection)
+    
     if selection == "股票市场":
         from stock import stock_market_analysis
         stock_market_analysis()
@@ -1733,64 +1795,85 @@ if __name__ == "__main__":
     st.sidebar.markdown("---")
     st.sidebar.markdown("### ⚙️ 显示设置")
     
-    enable_comparison = st.sidebar.checkbox(
-        "启用全局对比模式", 
-        key="global_comparison_mode",
-        value=False,
-        help="为每个图表添加对比视图，可独立选择不同时间范围"
-    )
+    st.sidebar.markdown("### 🔄 对比视图管理")
+    
+    if 'comparison_views' not in st.session_state:
+        st.session_state.comparison_views = {}
+    if 'active_view_index' not in st.session_state:
+        st.session_state.active_view_index = {}
     
     if final_selections:
-        if len(final_selections) == 1:
-            selection = final_selections[0]
+        for selection in final_selections:
+            if selection not in st.session_state.comparison_views:
+                st.session_state.comparison_views[selection] = {
+                    'count': 1,
+                    'views': ['主要视图']
+                }
+            if selection not in st.session_state.active_view_index:
+                st.session_state.active_view_index[selection] = 0
+        
+        for selection in final_selections:
+            view_info = st.session_state.comparison_views.get(selection, {'count': 1, 'views': ['主要视图']})
+            active_idx = st.session_state.active_view_index.get(selection, 0)
+            
+            st.markdown(f"# 📊 {selection}")
+            
+            col_info, col_add, col_remove = st.columns([3, 1, 1])
+            with col_info:
+                if view_info['count'] > 1:
+                    st.info(f"💡 当前共有 {view_info['count']} 个视图，可切换查看不同时间范围的对比")
+                else:
+                    st.info("💡 点击下方按钮可添加对比视图，用于不同时间范围的对比分析")
+            
+            with col_add:
+                if st.button(f"➕ 添加对比", key=f"add_compare_{selection}", use_container_width=True):
+                    view_info['count'] += 1
+                    view_info['views'].append(f"对比视图 {view_info['count']}")
+                    st.session_state.comparison_views[selection] = view_info
+                    st.rerun()
+            
+            with col_remove:
+                if view_info['count'] > 1 and st.button(f"➖ 删除对比", key=f"remove_compare_{selection}", use_container_width=True):
+                    if view_info['views']:
+                        removed_view = view_info['views'].pop()
+                        view_info['count'] = len(view_info['views'])
+                        st.session_state.comparison_views[selection] = view_info
+                        if active_idx >= view_info['count']:
+                            st.session_state.active_view_index[selection] = view_info['count'] - 1
+                        st.rerun()
+            
+            if view_info['count'] > 1:
+                st.markdown("**切换视图查看对比：**")
+                cols = st.columns(view_info['count'])
+                for idx, (col, view_name) in enumerate(zip(cols, view_info['views'])):
+                    with col:
+                        btn_type = "primary" if idx == active_idx else "secondary"
+                        if st.button(view_name, key=f"view_{selection}_{idx}", use_container_width=True, type=btn_type):
+                            st.session_state.active_view_index[selection] = idx
+                            st.rerun()
+                
+                current_view_name = view_info['views'][active_idx]
+                st.markdown(f"**当前视图：{current_view_name}**")
+                if active_idx > 0:
+                    st.markdown(f"<div style='background-color: #f0f2f6; padding: 10px; border-radius: 5px; margin-bottom: 15px;'>💡 提示：这是对比视图，你可以选择与主要视图不同的时间范围进行对比分析</div>", unsafe_allow_html=True)
+                st.markdown("---")
+            else:
+                st.markdown("---")
+            
             if 'current_dashboard' not in st.session_state or st.session_state.current_dashboard != selection:
                 st.session_state.current_dashboard = selection
                 reset_export_manager()
             
             export_manager = get_export_manager()
-            export_manager.add_filter_condition("当前看板", selection)
-            export_manager.add_filter_condition("对比模式", "开启" if enable_comparison else "关闭")
+            export_manager.add_filter_condition(f"当前看板 - {selection}", f"{view_info['count']} 个视图")
+            export_manager.add_filter_condition(f"{selection} - 当前视图", view_info['views'][active_idx])
             
-            if enable_comparison:
-                col_main, col_compare = st.columns(2)
-                
-                with col_main:
-                    st.markdown(f"# 📊 {selection} (主要视图)")
-                    st.markdown("---")
-                    render_dashboard(selection)
-                
-                with col_compare:
-                    st.markdown(f"# 📊 {selection} (对比视图)")
-                    st.markdown("---")
-                    st.info("💡 提示：对比视图可独立选择不同的时间范围进行对比分析")
-                    render_dashboard(selection)
-            else:
-                render_dashboard(selection)
-        else:
-            st.sidebar.success(f"已选择 {len(final_selections)} 个看板，将按顺序叠加显示")
+            render_dashboard(selection)
             
-            for idx, selection in enumerate(final_selections):
-                if idx > 0:
-                    st.markdown("---")
-                    st.markdown(f"<div style='text-align: center; color: gray; padding: 10px;'>⬇️ 下一个看板: {selection} ⬇️</div>", unsafe_allow_html=True)
-                    st.markdown("---")
-                
-                if enable_comparison:
-                    col_main, col_compare = st.columns(2)
-                    
-                    with col_main:
-                        st.markdown(f"# 📊 {selection} (主要视图)")
-                        st.markdown("---")
-                        render_dashboard(selection)
-                    
-                    with col_compare:
-                        st.markdown(f"# 📊 {selection} (对比视图)")
-                        st.markdown("---")
-                        st.info("💡 提示：对比视图可独立选择不同的时间范围")
-                        render_dashboard(selection)
-                else:
-                    st.markdown(f"# 📊 {selection}")
-                    render_dashboard(selection)
+            if selection != final_selections[-1]:
+                st.markdown("---")
+                st.markdown(f"<div style='text-align: center; color: gray; padding: 10px;'>⬇️ 下一个看板 ⬇️</div>", unsafe_allow_html=True)
+                st.markdown("---")
     else:
         st.markdown("# 👋 欢迎使用中国宏观经济看板")
         st.markdown("---")
